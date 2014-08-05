@@ -1,0 +1,7 @@
+set(BBQUE_ROOT $ENV{BOSP_SYSROOT} )
+set(BBQUE_INCLUDE_DIR "${BBQUE_ROOT}/include" )
+set(BBQUE_LIBRARY_DIR "${BBQUE_ROOT}/lib/bbque" )
+set(BBQUE_RTLIB "${BBQUE_LIBRARY_DIR}/libbbque_rtlib.so")
+if (NOT EXISTS "${BBQUE_RTLIB}" )
+	message(FATAL_ERROR "BOSP not found! Please set BOSP_SYSROOT!\n")
+endif()

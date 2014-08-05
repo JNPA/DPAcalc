@@ -1,0 +1,151 @@
+\hypertarget{classUtils}{
+\section{Utils Class Reference}
+\label{classUtils}\index{Utils@{Utils}}
+}
+
+
+This class provides some helpful static functions.  
+
+
+
+
+{\ttfamily \#include $<$Utils.h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classUtils_af5dbc4aa1ac136fac0da4d0ef76c9c84}{isHexText} (string str)
+\begin{DoxyCompactList}\small\item\em Returns true if the string is in hexadecimal format, false otherwise. \end{DoxyCompactList}\item 
+static void \hyperlink{classUtils_a3aa72fbd6298d4e9aa8e4d805cb0e293}{HexToBin} (string str, uint8\_\-t $\ast$bin)
+\begin{DoxyCompactList}\small\item\em Transforms a string in hexadecimal format into a binary format. \end{DoxyCompactList}\item 
+static string \hyperlink{classUtils_a8d516ce58623b0b8307337cdccbf24c2}{CleanString} (string str)
+\begin{DoxyCompactList}\small\item\em Cleans a string. \end{DoxyCompactList}\item 
+static string \hyperlink{classUtils_a5046ca59d4230a434939a9fd2a035442}{createOutputName} (string name, unsigned int num, unsigned int pad)
+\begin{DoxyCompactList}\small\item\em Creates a name with a pad of digit and a number at the end. \end{DoxyCompactList}\item 
+static string \hyperlink{classUtils_a5880c347609d0b3e0a9269b5ea59bb1e}{adjustPath} (string path)
+\begin{DoxyCompactList}\small\item\em Check if a string terminates with '/', otherwise it adds this character. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class provides some helpful static functions. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classUtils_a5880c347609d0b3e0a9269b5ea59bb1e}{
+\index{Utils@{Utils}!adjustPath@{adjustPath}}
+\index{adjustPath@{adjustPath}!Utils@{Utils}}
+\subsubsection[{adjustPath}]{\setlength{\rightskip}{0pt plus 5cm}string Utils::adjustPath (
+\begin{DoxyParamCaption}
+\item[{string}]{path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classUtils_a5880c347609d0b3e0a9269b5ea59bb1e}
+
+
+Check if a string terminates with '/', otherwise it adds this character. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & string to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the same string terminated with '/' 
+\end{DoxyReturn}
+\hypertarget{classUtils_a8d516ce58623b0b8307337cdccbf24c2}{
+\index{Utils@{Utils}!CleanString@{CleanString}}
+\index{CleanString@{CleanString}!Utils@{Utils}}
+\subsubsection[{CleanString}]{\setlength{\rightskip}{0pt plus 5cm}string Utils::CleanString (
+\begin{DoxyParamCaption}
+\item[{string}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classUtils_a8d516ce58623b0b8307337cdccbf24c2}
+
+
+Cleans a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to clean \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a string without space, '\par
+', '', '' 
+\end{DoxyReturn}
+\hypertarget{classUtils_a5046ca59d4230a434939a9fd2a035442}{
+\index{Utils@{Utils}!createOutputName@{createOutputName}}
+\index{createOutputName@{createOutputName}!Utils@{Utils}}
+\subsubsection[{createOutputName}]{\setlength{\rightskip}{0pt plus 5cm}string Utils::createOutputName (
+\begin{DoxyParamCaption}
+\item[{string}]{name, }
+\item[{unsigned int}]{num, }
+\item[{unsigned int}]{pad}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classUtils_a5046ca59d4230a434939a9fd2a035442}
+
+
+Creates a name with a pad of digit and a number at the end. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & name to modify \\
+\hline
+{\em num} & number to add at the end \\
+\hline
+{\em pad} & the number of digit to add (filled with zeros) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the name modified (name + zeros padding + number) this function is useful to create names in sequence.\par
+ for example: out0001, out0002, etc... 
+\end{DoxyReturn}
+\hypertarget{classUtils_a3aa72fbd6298d4e9aa8e4d805cb0e293}{
+\index{Utils@{Utils}!HexToBin@{HexToBin}}
+\index{HexToBin@{HexToBin}!Utils@{Utils}}
+\subsubsection[{HexToBin}]{\setlength{\rightskip}{0pt plus 5cm}void Utils::HexToBin (
+\begin{DoxyParamCaption}
+\item[{string}]{str, }
+\item[{uint8\_\-t $\ast$}]{bin}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classUtils_a3aa72fbd6298d4e9aa8e4d805cb0e293}
+
+
+Transforms a string in hexadecimal format into a binary format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to convert \\
+\hline
+{\em bin} & result of the conversion \\
+\hline
+\end{DoxyParams}
+\hypertarget{classUtils_af5dbc4aa1ac136fac0da4d0ef76c9c84}{
+\index{Utils@{Utils}!isHexText@{isHexText}}
+\index{isHexText@{isHexText}!Utils@{Utils}}
+\subsubsection[{isHexText}]{\setlength{\rightskip}{0pt plus 5cm}bool Utils::isHexText (
+\begin{DoxyParamCaption}
+\item[{string}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classUtils_af5dbc4aa1ac136fac0da4d0ef76c9c84}
+
+
+Returns true if the string is in hexadecimal format, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & string to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the string is in hexadecimal format, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Utils_8h}{Utils.h}\item 
+Utils.cpp\end{DoxyCompactItemize}

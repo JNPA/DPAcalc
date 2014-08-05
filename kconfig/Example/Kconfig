@@ -1,0 +1,28 @@
+mainmenu "Test Kconfig project"
+
+menu "Simple example"
+
+  config VAR1
+	  bool "Variabile1"
+	  ---help---
+		  Help text 1
+  config VAR2
+	  string "Variable2"
+	  ---help---
+		  Help text2
+  choice
+	prompt "Variable3"
+    config VAR3_A
+	    bool "Variable3 option A"
+	    ---help---
+		    Help text3 A
+    config VAR3_B
+	    bool "Variable3 option B"
+	    ---help---
+		    Help text3 B
+    config VAR3_C
+	    bool "Variable3 option C"
+	    ---help---
+		    Help text3 C
+  endchoice
+endmenu

@@ -1,0 +1,98 @@
+﻿Build started 09/11/2013 22:52:39.
+     1>Project "C:\Users\JohnDoe\Dropbox\DPATool\dpacalc-master\DPACalc.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\JohnDoe\Dropbox\DPATool\dpacalc-master\dependencies\tclap" /I"C:\Users\JohnDoe\Dropbox\DPATool\dpacalc-master\dependencies\eigen" /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt dataconverter\converter.cpp dataconverter\FileConfigReader.cpp dataconverter\FileReader.cpp dataconverter\Utils.cpp dependencies\eigen\bench\benchFFT.cpp dependencies\eigen\bench\benchmark.cpp dependencies\eigen\bench\benchmarkX.cpp dependencies\eigen\bench\bench_gemm.cpp dependencies\eigen\bench\bench_norm.cpp dependencies\eigen\bench\bench_sum.cpp dependencies\eigen\bench\eig33.cpp dependencies\eigen\bench\geometry.cpp dependencies\eigen\bench\quatmul.cpp dependencies\eigen\bench\quat_slerp.cpp dependencies\eigen\bench\sparse_lu.cpp dependencies\eigen\bench\spmv.cpp dependencies\eigen\bench\vdw_new.cpp dependencies\eigen\blas\double.cpp dependencies\eigen\blas\single.cpp dependencies\eigen\blas\xerbla.cpp dependencies\eigen\doc\tutorial.cpp dependencies\eigen\lapack\cholesky.cpp dependencies\eigen\lapack\double.cpp dependencies\eigen\lapack\lu.cpp dependencies\eigen\lapack\single.cpp dependencies\eigen\test\adjoint.cpp dependencies\eigen\test\array.cpp dependencies\eigen\test\bandmatrix.cpp dependencies\eigen\test\basicstuff.cpp dependencies\eigen\test\block.cpp dependencies\eigen\test\cholesky.cpp dependencies\eigen\test\corners.cpp dependencies\eigen\test\cwiseop.cpp dependencies\eigen\test\determinant.cpp dependencies\eigen\test\diagonal.cpp dependencies\eigen\test\dontalign.cpp dependencies\eigen\test\dynalloc.cpp dependencies\eigen\test\exceptions.cpp dependencies\eigen\test\hessenberg.cpp dependencies\eigen\test\householder.cpp dependencies\eigen\test\inverse.cpp dependencies\eigen\test\jacobi.cpp dependencies\eigen\test\jacobisvd.cpp dependencies\eigen\test\lu.cpp dependencies\eigen\test\map.cpp dependencies\eigen\test\mapstride.cpp dependencies\eigen\test\meta.cpp dependencies\eigen\test\mixingtypes.cpp dependencies\eigen\test\nesting_ops.cpp dependencies\eigen\test\nomalloc.cpp dependencies\eigen\test\nullary.cpp dependencies\eigen\test\packetmath.cpp dependencies\eigen\test\qr.cpp dependencies\eigen\test\qtvector.cpp dependencies\eigen\test\redux.cpp dependencies\eigen\test\resize.cpp dependencies\eigen\test\schur_real.cpp dependencies\eigen\test\selfadjoint.cpp dependencies\eigen\test\sizeof.cpp dependencies\eigen\test\stable_norm.cpp dependencies\eigen\test\stddeque.cpp dependencies\eigen\test\stdlist.cpp dependencies\eigen\test\stdvector.cpp dependencies\eigen\test\swap.cpp dependencies\eigen\test\triangular.cpp dependencies\eigen\test\umeyama.cpp dependencies\eigen\test\visitor.cpp dependencies\eigen\test\zerosized.cpp dependencies\tclap\examples\test1.cpp dependencies\tclap\examples\test10.cpp dependencies\tclap\examples\test11.cpp dependencies\tclap\examples\test12.cpp dependencies\tclap\examples\test13.cpp dependencies\tclap\examples\test14.cpp dependencies\tclap\examples\test15.cpp dependencies\tclap\examples\test16.cpp dependencies\tclap\examples\test17.cpp dependencies\tclap\examples\test18.cpp dependencies\tclap\examples\test19.cpp dependencies\tclap\examples\test2.cpp dependencies\tclap\examples\test20.cpp dependencies\tclap\examples\test21.cpp dependencies\tclap\examples\test3.cpp dependencies\tclap\examples\test4.cpp dependencies\tclap\examples\test5.cpp dependencies\tclap\examples\test6.cpp dependencies\tclap\examples\test7.cpp dependencies\tclap\examples\test8.cpp dependencies\tclap\examples\test9.cpp src\exec\bbque.cpp src\exec\cxx11threads.cpp src\exec\seq_monocore.cpp src\gen_intermediate\aes128round1.cpp src\gen_powermodel\hammingweight.cpp src\input\bin1.cpp src\keygen\aes128keygen.cpp src\main.cpp src\output\coarseresult.cpp src\output\gnuplot.cpp src\output\multiple.cpp src\statisticaltest\pearson.cpp src\utils.cpp
+         utils.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\eigen\Core(30): fatal error C1083: Cannot open include file: 'src/Core/util/DisableStupidWarnings.h': No such file or directory
+         pearson.cpp
+     1>src\statisticaltest\pearson.cpp(17): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         multiple.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\src\output\multiple.hpp(18): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         gnuplot.cpp
+     1>src\output\gnuplot.cpp(17): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         coarseresult.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\src\output\coarseresult.hpp(18): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         main.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\eigen\Core(30): fatal error C1083: Cannot open include file: 'src/Core/util/DisableStupidWarnings.h': No such file or directory
+         aes128keygen.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\src\keygen\base.hpp(18): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         bin1.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\src\input\bin1.hpp(18): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         hammingweight.cpp
+     1>src\gen_powermodel\hammingweight.cpp(17): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         aes128round1.cpp
+     1>src\gen_intermediate\aes128round1.cpp(17): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         seq_monocore.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\src\exec\seq_monocore.hpp(18): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         cxx11threads.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\src\exec\cxx11threads.hpp(18): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         bbque.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\src\exec\bbque.hpp(18): fatal error C1083: Cannot open include file: 'dpacalc.h': No such file or directory
+         test9.cpp
+     1>dependencies\tclap\examples\test9.cpp(4): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test8.cpp
+     1>dependencies\tclap\examples\test8.cpp(3): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test7.cpp
+     1>dependencies\tclap\examples\test7.cpp(2): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test6.cpp
+     1>dependencies\tclap\examples\test6.cpp(2): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test5.cpp
+     1>dependencies\tclap\examples\test5.cpp(3): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test4.cpp
+     1>dependencies\tclap\examples\test4.cpp(3): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test3.cpp
+     1>dependencies\tclap\examples\test3.cpp(3): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         Generating Code...
+         Compiling...
+         test21.cpp
+     1>dependencies\tclap\examples\test21.cpp(10): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test20.cpp
+     1>dependencies\tclap\examples\test20.cpp(4): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test2.cpp
+     1>dependencies\tclap\examples\test2.cpp(3): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test19.cpp
+     1>dependencies\tclap\examples\test19.cpp(5): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test18.cpp
+     1>dependencies\tclap\examples\test18.cpp(4): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test17.cpp
+     1>dependencies\tclap\examples\test17.cpp(1): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test16.cpp
+     1>dependencies\tclap\examples\test16.cpp(1): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test15.cpp
+     1>dependencies\tclap\examples\test15.cpp(1): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test14.cpp
+     1>dependencies\tclap\examples\test14.cpp(1): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test13.cpp
+     1>dependencies\tclap\examples\test13.cpp(4): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test12.cpp
+     1>dependencies\tclap\examples\test12.cpp(1): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test11.cpp
+     1>dependencies\tclap\examples\test11.cpp(1): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test10.cpp
+     1>dependencies\tclap\examples\test10.cpp(4): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         test1.cpp
+     1>dependencies\tclap\examples\test1.cpp(4): fatal error C1083: Cannot open include file: 'tclap/CmdLine.h': No such file or directory
+         zerosized.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         visitor.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         umeyama.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         triangular.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         swap.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         stdvector.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         Generating Code...
+         Compiling...
+         stdlist.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         stddeque.cpp
+     1>c:\users\johndoe\dropbox\dpatool\dpacalc-master\dependencies\eigen\test\main.h(104): fatal error C1060: compiler is out of heap space
+         stable_norm.cpp
+     1>Done Building Project "C:\Users\JohnDoe\Dropbox\DPATool\dpacalc-master\DPACalc.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:33.28

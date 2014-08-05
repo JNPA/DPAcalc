@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{16C9BB13-D5DC-47EE-83DD-2A79BDF677C9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\Users\JohnDoe\Dropbox\DPATool\dpacalc-master\dependencies\tclap;C:\Users\JohnDoe\Dropbox\DPATool\dpacalc-master\dependencies\eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="dataconverter\converter.cpp" />
+    <ClCompile Include="dataconverter\FileConfigReader.cpp" />
+    <ClCompile Include="dataconverter\FileReader.cpp" />
+    <ClCompile Include="dataconverter\Utils.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\benchFFT.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\benchmark.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\benchmarkX.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\bench_gemm.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\bench_norm.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\bench_sum.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\eig33.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\geometry.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\quatmul.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\quat_slerp.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\sparse_lu.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\spmv.cpp" />
+    <ClCompile Include="dependencies\eigen\bench\vdw_new.cpp" />
+    <ClCompile Include="dependencies\eigen\blas\double.cpp" />
+    <ClCompile Include="dependencies\eigen\blas\single.cpp" />
+    <ClCompile Include="dependencies\eigen\blas\xerbla.cpp" />
+    <ClCompile Include="dependencies\eigen\doc\tutorial.cpp" />
+    <ClCompile Include="dependencies\eigen\lapack\cholesky.cpp" />
+    <ClCompile Include="dependencies\eigen\lapack\double.cpp" />
+    <ClCompile Include="dependencies\eigen\lapack\lu.cpp" />
+    <ClCompile Include="dependencies\eigen\lapack\single.cpp" />
+    <ClCompile Include="dependencies\eigen\test\adjoint.cpp" />
+    <ClCompile Include="dependencies\eigen\test\array.cpp" />
+    <ClCompile Include="dependencies\eigen\test\bandmatrix.cpp" />
+    <ClCompile Include="dependencies\eigen\test\basicstuff.cpp" />
+    <ClCompile Include="dependencies\eigen\test\block.cpp" />
+    <ClCompile Include="dependencies\eigen\test\cholesky.cpp" />
+    <ClCompile Include="dependencies\eigen\test\corners.cpp" />
+    <ClCompile Include="dependencies\eigen\test\cwiseop.cpp" />
+    <ClCompile Include="dependencies\eigen\test\determinant.cpp" />
+    <ClCompile Include="dependencies\eigen\test\diagonal.cpp" />
+    <ClCompile Include="dependencies\eigen\test\dontalign.cpp" />
+    <ClCompile Include="dependencies\eigen\test\dynalloc.cpp" />
+    <ClCompile Include="dependencies\eigen\test\exceptions.cpp" />
+    <ClCompile Include="dependencies\eigen\test\hessenberg.cpp" />
+    <ClCompile Include="dependencies\eigen\test\householder.cpp" />
+    <ClCompile Include="dependencies\eigen\test\inverse.cpp" />
+    <ClCompile Include="dependencies\eigen\test\jacobi.cpp" />
+    <ClCompile Include="dependencies\eigen\test\jacobisvd.cpp" />
+    <ClCompile Include="dependencies\eigen\test\lu.cpp" />
+    <ClCompile Include="dependencies\eigen\test\map.cpp" />
+    <ClCompile Include="dependencies\eigen\test\mapstride.cpp" />
+    <ClCompile Include="dependencies\eigen\test\meta.cpp" />
+    <ClCompile Include="dependencies\eigen\test\mixingtypes.cpp" />
+    <ClCompile Include="dependencies\eigen\test\nesting_ops.cpp" />
+    <ClCompile Include="dependencies\eigen\test\nomalloc.cpp" />
+    <ClCompile Include="dependencies\eigen\test\nullary.cpp" />
+    <ClCompile Include="dependencies\eigen\test\packetmath.cpp" />
+    <ClCompile Include="dependencies\eigen\test\qr.cpp" />
+    <ClCompile Include="dependencies\eigen\test\qtvector.cpp" />
+    <ClCompile Include="dependencies\eigen\test\redux.cpp" />
+    <ClCompile Include="dependencies\eigen\test\resize.cpp" />
+    <ClCompile Include="dependencies\eigen\test\schur_real.cpp" />
+    <ClCompile Include="dependencies\eigen\test\selfadjoint.cpp" />
+    <ClCompile Include="dependencies\eigen\test\sizeof.cpp" />
+    <ClCompile Include="dependencies\eigen\test\stable_norm.cpp" />
+    <ClCompile Include="dependencies\eigen\test\stddeque.cpp" />
+    <ClCompile Include="dependencies\eigen\test\stdlist.cpp" />
+    <ClCompile Include="dependencies\eigen\test\stdvector.cpp" />
+    <ClCompile Include="dependencies\eigen\test\swap.cpp" />
+    <ClCompile Include="dependencies\eigen\test\triangular.cpp" />
+    <ClCompile Include="dependencies\eigen\test\umeyama.cpp" />
+    <ClCompile Include="dependencies\eigen\test\visitor.cpp" />
+    <ClCompile Include="dependencies\eigen\test\zerosized.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test1.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test10.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test11.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test12.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test13.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test14.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test15.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test16.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test17.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test18.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test19.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test2.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test20.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test21.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test3.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test4.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test5.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test6.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test7.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test8.cpp" />
+    <ClCompile Include="dependencies\tclap\examples\test9.cpp" />
+    <ClCompile Include="src\exec\bbque.cpp" />
+    <ClCompile Include="src\exec\cxx11threads.cpp" />
+    <ClCompile Include="src\exec\seq_monocore.cpp" />
+    <ClCompile Include="src\gen_intermediate\aes128round1.cpp" />
+    <ClCompile Include="src\gen_powermodel\hammingweight.cpp" />
+    <ClCompile Include="src\input\bin1.cpp" />
+    <ClCompile Include="src\keygen\aes128keygen.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\output\coarseresult.cpp" />
+    <ClCompile Include="src\output\gnuplot.cpp" />
+    <ClCompile Include="src\output\multiple.cpp" />
+    <ClCompile Include="src\statisticaltest\pearson.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dataconverter\common.h" />
+    <ClInclude Include="dataconverter\FileConfigReader.h" />
+    <ClInclude Include="dataconverter\FileReader.h" />
+    <ClInclude Include="dataconverter\Utils.h" />
+    <ClInclude Include="dependencies\eigen\bench\BenchTimer.h" />
+    <ClInclude Include="dependencies\eigen\bench\BenchUtil.h" />
+    <ClInclude Include="dependencies\eigen\blas\common.h" />
+    <ClInclude Include="dependencies\eigen\blas\level1_impl.h" />
+    <ClInclude Include="dependencies\eigen\blas\level2_impl.h" />
+    <ClInclude Include="dependencies\eigen\blas\level3_impl.h" />
+    <ClInclude Include="dependencies\eigen\eigen\src\core\Dot.h" />
+    <ClInclude Include="dependencies\eigen\eigen\src\core\IO.h" />
+    <ClInclude Include="dependencies\eigen\eigen\src\core\Map.h" />
+    <ClInclude Include="dependencies\eigen\test\eigen2\main.h" />
+    <ClInclude Include="dependencies\eigen\test\eigen2\sparse.h" />
+    <ClInclude Include="dependencies\eigen\test\gsl_helper.h" />
+    <ClInclude Include="dependencies\eigen\test\main.h" />
+    <ClInclude Include="dependencies\eigen\test\product.h" />
+    <ClInclude Include="dependencies\eigen\test\sparse.h" />
+    <ClInclude Include="dependencies\tclap\include\tclap\Arg.h" />
+    <ClInclude Include="src\dpacalc.h" />
+    <ClInclude Include="src\exec\base.hpp" />
+    <ClInclude Include="src\exec\bbque.hpp" />
+    <ClInclude Include="src\exec\cxx11threads.hpp" />
+    <ClInclude Include="src\exec\seq_monocore.hpp" />
+    <ClInclude Include="src\gen_intermediate\aes.h" />
+    <ClInclude Include="src\gen_intermediate\aes128round1.hpp" />
+    <ClInclude Include="src\gen_intermediate\aes_constants.h" />
+    <ClInclude Include="src\gen_intermediate\aes_helpers.h" />
+    <ClInclude Include="src\gen_intermediate\aes_primitives.h" />
+    <ClInclude Include="src\gen_intermediate\aes_structs.h" />
+    <ClInclude Include="src\gen_intermediate\base.hpp" />
+    <ClInclude Include="src\gen_powermodel\base.hpp" />
+    <ClInclude Include="src\gen_powermodel\hammingweight.hpp" />
+    <ClInclude Include="src\input\base.hpp" />
+    <ClInclude Include="src\input\bin1.hpp" />
+    <ClInclude Include="src\keygen\aes128keygen.hpp" />
+    <ClInclude Include="src\keygen\base.hpp" />
+    <ClInclude Include="src\main.hpp" />
+    <ClInclude Include="src\output\base.hpp" />
+    <ClInclude Include="src\output\coarseresult.hpp" />
+    <ClInclude Include="src\output\gnuplot.hpp" />
+    <ClInclude Include="src\output\multiple.hpp" />
+    <ClInclude Include="src\statisticaltest\base.hpp" />
+    <ClInclude Include="src\statisticaltest\pearson.hpp" />
+    <ClInclude Include="src\utils.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dataconverter\doc\html\annotated.html" />
+    <None Include="dataconverter\doc\html\classes.html" />
+    <None Include="dataconverter\doc\html\classUtils.html" />
+    <None Include="dataconverter\doc\html\common_8h.html" />
+    <None Include="dataconverter\doc\html\files.html" />
+    <None Include="dataconverter\doc\html\functions.html" />
+    <None Include="dataconverter\doc\html\globals.html" />
+    <None Include="dataconverter\doc\html\index.html" />
+    <None Include="dataconverter\doc\html\Utils_8h.html" />
+    <None Include="dataconverter\save\out000001.bin" />
+    <None Include="dependencies\tclap\docs\html\files.html" />
+    <None Include="dependencies\tclap\docs\html\index.html" />
+    <None Include="dependencies\tclap\docs\index.html" />
+    <None Include="dependencies\tclap\docs\manual.html" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

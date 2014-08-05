@@ -1,0 +1,13 @@
+#!/bin/bash
+INPUT=$1
+echo --- DPAcalc should be compiled to guess 8 bit of the key per execution ---
+for i in $(seq 0 15); do
+	./out/dpacalc --filename $INPUT --mlock --script-output gnuplot_script_$i --output data_$i --sboxnum 1 --sbox $i --shiftkey $(echo $i \* 8 |bc) |tee dpacalc_output_$i
+echo
+done
+echo The entire key should be:
+for i in $(seq 0 15); do
+	# dpacalc_output_$i
+	echo -n $(cat dpacalc_output_$i |grep 'best key hypotesis' |cut -f2 -d:) |sed 's/^\([0-9a-f]\)$/0\1/'
+done
+echo

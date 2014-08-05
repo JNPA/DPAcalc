@@ -1,0 +1,122 @@
+\begin{theindex}
+
+  \item {$\sim $FileConfigReader}
+    \subitem {FileConfigReader}, \hyperpage{12}
+  \item {$\sim $FileReader}
+    \subitem {FileReader}, \hyperpage{15}
+
+  \indexspace
+
+  \item {adjustPath}
+    \subitem {Utils}, \hyperpage{17}
+  \item {AgilentFileHeader}
+    \subitem {common.h}, \hyperpage{21}
+  \item {AgilentFileHeaderTag}, \hyperpage{9}
+  \item {AgilentWaveformDataHeader}
+    \subitem {common.h}, \hyperpage{21}
+  \item {AgilentWaveformDataHeaderTag}, \hyperpage{9}
+  \item {AgilentWaveformHeader}
+    \subitem {common.h}, \hyperpage{21}
+  \item {AgilentWaveformHeaderTag}, \hyperpage{10}
+
+  \indexspace
+
+  \item {CleanString}
+    \subitem {Utils}, \hyperpage{17}
+  \item {common.h}, \hyperpage{19}
+    \subitem {AgilentFileHeader}, \hyperpage{21}
+    \subitem {AgilentWaveformDataHeader}, \hyperpage{21}
+    \subitem {AgilentWaveformHeader}, \hyperpage{21}
+    \subitem {UINTN}, \hyperpage{22}
+  \item {converter.cpp}, \hyperpage{22}
+    \subitem {help}, \hyperpage{23}
+    \subitem {main}, \hyperpage{23}
+  \item {createOutputName}
+    \subitem {Utils}, \hyperpage{17}
+
+  \indexspace
+
+  \item {FileConfigReader}, \hyperpage{11}
+    \subitem {$\sim $FileConfigReader}, \hyperpage{12}
+    \subitem {FileConfigReader}, \hyperpage{12}
+    \subitem {getFileList}, \hyperpage{12}
+    \subitem {getInputFormat}, \hyperpage{12}
+    \subitem {getOutputName}, \hyperpage{12}
+    \subitem {getOutputPath}, \hyperpage{13}
+    \subitem {getOutputTraceLength}, \hyperpage{13}
+    \subitem {getOutputTraceOffset}, \hyperpage{13}
+    \subitem {getOutputTracePerFile}, \hyperpage{13}
+    \subitem {getValueOfKey}, \hyperpage{13}
+    \subitem {keyExists}, \hyperpage{14}
+  \item {FileConfigReader.h}, \hyperpage{23}
+  \item {FileReader}, \hyperpage{14}
+    \subitem {$\sim $FileReader}, \hyperpage{15}
+    \subitem {FileReader}, \hyperpage{15}
+    \subitem {getFormatSize}, \hyperpage{15}
+    \subitem {getFormatType}, \hyperpage{15}
+    \subitem {getNSample}, \hyperpage{15}
+    \subitem {getTraces}, \hyperpage{16}
+  \item {FileReader.h}, \hyperpage{24}
+
+  \indexspace
+
+  \item {getFileList}
+    \subitem {FileConfigReader}, \hyperpage{12}
+  \item {getFormatSize}
+    \subitem {FileReader}, \hyperpage{15}
+  \item {getFormatType}
+    \subitem {FileReader}, \hyperpage{15}
+  \item {getInputFormat}
+    \subitem {FileConfigReader}, \hyperpage{12}
+  \item {getNSample}
+    \subitem {FileReader}, \hyperpage{15}
+  \item {getOutputName}
+    \subitem {FileConfigReader}, \hyperpage{12}
+  \item {getOutputPath}
+    \subitem {FileConfigReader}, \hyperpage{13}
+  \item {getOutputTraceLength}
+    \subitem {FileConfigReader}, \hyperpage{13}
+  \item {getOutputTraceOffset}
+    \subitem {FileConfigReader}, \hyperpage{13}
+  \item {getOutputTracePerFile}
+    \subitem {FileConfigReader}, \hyperpage{13}
+  \item {getTraces}
+    \subitem {FileReader}, \hyperpage{16}
+  \item {getValueOfKey}
+    \subitem {FileConfigReader}, \hyperpage{13}
+
+  \indexspace
+
+  \item {help}
+    \subitem {converter.cpp}, \hyperpage{23}
+  \item {HexToBin}
+    \subitem {Utils}, \hyperpage{17}
+
+  \indexspace
+
+  \item {isHexText}
+    \subitem {Utils}, \hyperpage{18}
+
+  \indexspace
+
+  \item {keyExists}
+    \subitem {FileConfigReader}, \hyperpage{14}
+
+  \indexspace
+
+  \item {main}
+    \subitem {converter.cpp}, \hyperpage{23}
+
+  \indexspace
+
+  \item {UINTN}
+    \subitem {common.h}, \hyperpage{22}
+  \item {Utils}, \hyperpage{16}
+    \subitem {adjustPath}, \hyperpage{17}
+    \subitem {CleanString}, \hyperpage{17}
+    \subitem {createOutputName}, \hyperpage{17}
+    \subitem {HexToBin}, \hyperpage{17}
+    \subitem {isHexText}, \hyperpage{18}
+  \item {Utils.h}, \hyperpage{25}
+
+\end{theindex}

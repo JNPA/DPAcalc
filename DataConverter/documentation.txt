@@ -1,0 +1,100 @@
+//documentation.cfg is set in order to include this file, when doxygen documentation is built
+
+/**
+
+@mainpage User Manual
+
+@section s02 Description
+DataConverter converts Agilent and Lecroy files into the format used by CUDA Correlation Attacker.
+
+@section s03 How to compile
+@subsection s031 Compile DataConverter
+Run the following command from the main folder (the folder where Makefile is):
+@code
+make
+@endcode
+If everything goes fine a binary executable file named @e converter is created.
+@subsection s032 Compile documentation
+Run the following command from the main folder:
+@code
+doxygen documentation.cfg
+@endcode
+Open doc/html/index.html to read html documentation.\n
+In doc/latex, run:
+@code
+make
+@endcode
+in order to create pdf documentation file (@e doc/latex/refman.pdf ).
+
+
+@section s04 How to run
+From the main folder, run the following command:
+@code
+./converter <source1> <source2>
+@endcode
+@li @e source1: is the full path of the file containing a list of hexadecimal values
+@li @e source2: is the full path of the configuration file used during the conversion
+
+See section 1.4 for more details.
+@subsection s041 Exit codes
+@li 0: everything goes fine
+@li 1: command line error
+@li 2: setting files parsing error
+
+@section s05 Configuration
+The configuration file must contain lines in this format:\n 
+@li the couple: \<key\>=\<value\>
+@li the special key: \<file_list:\> followed by a full path list of the Agilent or Lecroy files
+@li blank lines and any character following # are ignored
+
+The following values must be set in the configuration file
+
+@li @e output_trace_length:  the length of the trace to save in number of samples
+@li @e output_trace_offset:  the number of samples to ignore during the conversion
+@li @e output_traces_per_file:  the number of traces to save for each output file
+@li @e output_path: the location where the output file will be saved
+@li @e output_name: the name of the output file to save
+@li @e input_format: the format of the input files (Lecroy, Agilent, txt)
+
+@li @e file_list: this special key must be followed by a list of full path of the Agilent or Lecroy files
+
+@section s06 Output file
+The converter generates one or more output files (it depends on the configuration settings).\n
+An output file contains:\n
+@li a header with informations about:
+  - the number of traces
+  - the number of samples per trace
+  - the format of each sample
+  - the length of a plain/cipher text in byte
+@li a list of traces with a plain/cipher text attached to each trace
+
+Both the traces and the plain/cipher texts are saved in binary format.
+
+
+Here an example:
+@code
+--- header ---
+number of traces [uint32]
+number of samples per trace [uint32]
+sample format [char: b for int8, f for float, d for double]
+length of a plain/cipher text in byte [uint8]
+--- trace 1 ----
+trace [in binary format]
+plain/cipher text [in binary format]
+--- trace 2 ----
+.
+.
+.
+
+--- trace n ----
+@endcode
+
+@subsection s061 Sample formats
+The samples of a trace could be of four formats. The converter saves this information in the output header 
+using a different character for each format.
+@li @e int8 saved as 'b'
+@li @e int16 saved as 'c'
+@li @e float saved as 'f'
+@li @e double saved as 'd'
+
+ */

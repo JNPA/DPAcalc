@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<BarbequeRTRM recipe_version="0.8">
+	<application priority="4">
+		<platform id="org.linux.cgroup">
+			<awms>
+				<awm id="0" name="wm0" value="1">
+					<resources>
+						<tile id="0">
+							<cluster id="0">
+								<pe qty="100"/>
+								<mem units="Mb" qty="4000"/>
+							</cluster>
+						</tile>
+					</resources>
+				</awm>
+				<awm id="1" name="wm0" value="2">
+					<resources>
+						<tile id="0">
+							<cluster id="0">
+								<pe qty="200"/>
+								<mem units="Mb" qty="4000"/>
+							</cluster>
+						</tile>
+					</resources>
+				</awm>
+				<awm id="2" name="wm0" value="3">
+					<resources>
+						<tile id="0">
+							<cluster id="0">
+								<pe qty="300"/>
+								<mem units="Mb" qty="4000"/>
+							</cluster>
+						</tile>
+					</resources>
+				</awm>
+
+			<awm id="3" name="wm0" value="4">
+					<resources>
+						<tile id="0">
+							<cluster id="0">
+								<pe qty="400"/>
+								<mem units="Mb" qty="4000"/>
+							</cluster>
+						</tile>
+					</resources>
+				</awm>
+
+			<awm id="4" name="wm0" value="5">
+					<resources>
+						<tile id="0">
+							<cluster id="0">
+								<pe qty="500"/>
+								<mem units="Mb" qty="4000"/>
+							</cluster>
+						</tile>
+					</resources>
+				</awm>
+
+
+			</awms>
+		</platform>
+	</application>
+</BarbequeRTRM>
+<!-- vim: set tabstop=4 filetype=xml : -->

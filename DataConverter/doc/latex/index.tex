@@ -1,0 +1,70 @@
+\hypertarget{index_s02}{}\section{Description}\label{index_s02}
+DataConverter converts Agilent and Lecroy files into the format used by CUDA Correlation Attacker.\hypertarget{index_s03}{}\section{How to compile}\label{index_s03}
+\hypertarget{index_s031}{}\subsection{Compile DataConverter}\label{index_s031}
+Run the following command from the main folder (the folder where Makefile is): 
+\begin{DoxyCode}
+make
+\end{DoxyCode}
+ If everything goes fine a binary executable file named {\itshape converter\/} is created. \hypertarget{index_s032}{}\subsection{Compile documentation}\label{index_s032}
+Run the following command from the main folder: 
+\begin{DoxyCode}
+doxygen documentation.cfg
+\end{DoxyCode}
+ Open doc/html/index.html to read html documentation.\par
+ In doc/latex, run: 
+\begin{DoxyCode}
+make
+\end{DoxyCode}
+ in order to create pdf documentation file ({\itshape doc/latex/refman.pdf\/} ).\hypertarget{index_s04}{}\section{How to run}\label{index_s04}
+From the main folder, run the following command: 
+\begin{DoxyCode}
+./converter <source1> <source2>
+\end{DoxyCode}
+ \begin{DoxyItemize}
+\item {\itshape source1:\/} is the full path of the file containing a list of hexadecimal values \item {\itshape source2:\/} is the full path of the configuration file used during the conversion\end{DoxyItemize}
+See section 1.4 for more details. \hypertarget{index_s041}{}\subsection{Exit codes}\label{index_s041}
+\begin{DoxyItemize}
+\item 0: everything goes fine \item 1: command line error \item 2: setting files parsing error\end{DoxyItemize}
+\hypertarget{index_s05}{}\section{Configuration}\label{index_s05}
+The configuration file must contain lines in this format:\par
+ \begin{DoxyItemize}
+\item the couple: $<$key$>$=$<$value$>$ \item the special key: $<$file\_\-list:$>$ followed by a full path list of the Agilent or Lecroy files \item blank lines and any character following \# are ignored\end{DoxyItemize}
+The following values must be set in the configuration file
+
+\begin{DoxyItemize}
+\item {\itshape output\_\-trace\_\-length:\/} the length of the trace to save in number of samples \item {\itshape output\_\-trace\_\-offset:\/} the number of samples to ignore during the conversion \item {\itshape output\_\-traces\_\-per\_\-file:\/} the number of traces to save for each output file \item {\itshape output\_\-path:\/} the location where the output file will be saved \item {\itshape output\_\-name:\/} the name of the output file to save \item {\itshape input\_\-format:\/} the format of the input files (Lecroy, Agilent, txt)\end{DoxyItemize}
+\begin{DoxyItemize}
+\item {\itshape file\_\-list:\/} this special key must be followed by a list of full path of the Agilent or Lecroy files\end{DoxyItemize}
+\hypertarget{index_s06}{}\section{Output file}\label{index_s06}
+The converter generates one or more output files (it depends on the configuration settings).\par
+ An output file contains:\par
+ \begin{DoxyItemize}
+\item a header with informations about:
+\begin{DoxyItemize}
+\item the number of traces
+\item the number of samples per trace
+\item the format of each sample
+\item the length of a plain/cipher text in byte 
+\end{DoxyItemize}\item a list of traces with a plain/cipher text attached to each trace\end{DoxyItemize}
+Both the traces and the plain/cipher texts are saved in binary format.
+
+Here an example: 
+\begin{DoxyCode}
+--- header ---
+number of traces [uint32]
+number of samples per trace [uint32]
+sample format [char: b for int8, f for float, d for double]
+length of a plain/cipher text in byte [uint8]
+--- trace 1 ----
+trace [in binary format]
+plain/cipher text [in binary format]
+--- trace 2 ----
+.
+.
+.
+
+--- trace n ----
+\end{DoxyCode}
+\hypertarget{index_s061}{}\subsection{Sample formats}\label{index_s061}
+The samples of a trace could be of four formats. The converter saves this information in the output header using a different character for each format. \begin{DoxyItemize}
+\item {\itshape int8\/} saved as 'b' \item {\itshape int16\/} saved as 'c' \item {\itshape float\/} saved as 'f' \item {\itshape double\/} saved as 'd' \end{DoxyItemize}

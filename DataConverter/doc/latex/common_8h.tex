@@ -1,0 +1,138 @@
+\hypertarget{common_8h}{
+\section{common.h File Reference}
+\label{common_8h}\index{common.h@{common.h}}
+}
+
+
+This file contains some commonly used includes, constants, defines, macros and typedefs.  
+
+
+{\ttfamily \#include $<$cstring$>$}\par
+{\ttfamily \#include $<$iostream$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include $<$dirent.h$>$}\par
+{\ttfamily \#include $<$errno.h$>$}\par
+{\ttfamily \#include $<$vector$>$}\par
+{\ttfamily \#include $<$string$>$}\par
+{\ttfamily \#include $<$cstdlib$>$}\par
+{\ttfamily \#include $<$stdint.h$>$}\par
+{\ttfamily \#include $<$fstream$>$}\par
+{\ttfamily \#include $<$algorithm$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include $<$sstream$>$}\par
+{\ttfamily \#include $<$map$>$}\par
+{\ttfamily \#include $<$typeinfo$>$}\par
+{\ttfamily \#include $<$iterator$>$}\par
+Include dependency graph for common.h:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=400pt]{common_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{common_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structAgilentFileHeaderTag}{AgilentFileHeaderTag}
+\begin{DoxyCompactList}\small\item\em The type used to represent the header of an Agilent file. \end{DoxyCompactList}\item 
+struct \hyperlink{structAgilentWaveformHeaderTag}{AgilentWaveformHeaderTag}
+\begin{DoxyCompactList}\small\item\em The type used to represent the header of each waveform in an Agilent file. \end{DoxyCompactList}\item 
+struct \hyperlink{structAgilentWaveformDataHeaderTag}{AgilentWaveformDataHeaderTag}
+\begin{DoxyCompactList}\small\item\em The type used to represent the data header of each waveform in an Agilent file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{common_8h_aefa6c5396054e382826a216d05be8226}{
+\#define {\bfseries FILE\_\-TYPE\_\-LECROY}~1}
+\label{common_8h_aefa6c5396054e382826a216d05be8226}
+
+\item 
+\hypertarget{common_8h_acd42695457b2e8440cb71a2aca3b40f5}{
+\#define {\bfseries FILE\_\-TYPE\_\-AGILENT}~2}
+\label{common_8h_acd42695457b2e8440cb71a2aca3b40f5}
+
+\item 
+\hypertarget{common_8h_a6bb41c0bfc0e8eadb604a630d027dcd4}{
+\#define {\bfseries FILE\_\-TYPE\_\-TXT}~3}
+\label{common_8h_a6bb41c0bfc0e8eadb604a630d027dcd4}
+
+\item 
+\hypertarget{common_8h_ae32b4bc47b1cc742b6f73d840bf8b2fa}{
+\#define {\bfseries DATE\_\-TIME\_\-STRING\_\-LENGTH}~16}
+\label{common_8h_ae32b4bc47b1cc742b6f73d840bf8b2fa}
+
+\item 
+\hypertarget{common_8h_aacee9a00efb3e5bc52594668c08fbf82}{
+\#define {\bfseries FRAME\_\-STRING\_\-LENGTH}~24}
+\label{common_8h_aacee9a00efb3e5bc52594668c08fbf82}
+
+\item 
+\hypertarget{common_8h_ad2f228ded688abd0adcc5013091e714a}{
+\#define {\bfseries SIGNAL\_\-STRING\_\-LENGTH}~16}
+\label{common_8h_ad2f228ded688abd0adcc5013091e714a}
+
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned int \hyperlink{common_8h_a271e567655d46ec23cdcca42c1deab91}{UINTN}
+\begin{DoxyCompactList}\small\item\em The type used to represent unsigned integer number. This value should be equal to 2$^\wedge$n. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{structAgilentFileHeaderTag}{AgilentFileHeaderTag} \hyperlink{common_8h_adbcbbec810f51100b2595f1395d60c3c}{AgilentFileHeader}
+\begin{DoxyCompactList}\small\item\em The type used to represent the header of an Agilent file. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{structAgilentWaveformHeaderTag}{AgilentWaveformHeaderTag} \hyperlink{common_8h_a1f66db72c2c66ccb42604f224b7223e3}{AgilentWaveformHeader}
+\begin{DoxyCompactList}\small\item\em The type used to represent the header of each waveform in an Agilent file. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{structAgilentWaveformDataHeaderTag}{AgilentWaveformDataHeaderTag} \hyperlink{common_8h_a5576fbb88d1a47675988d047621fdc92}{AgilentWaveformDataHeader}
+\begin{DoxyCompactList}\small\item\em The type used to represent the data header of each waveform in an Agilent file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains some commonly used includes, constants, defines, macros and typedefs. This file should be included by every .h file in the project.\par
+ User should not change this file directly.\par
+ The use of std namespace is declared.\par
+ 
+
+\subsection{Typedef Documentation}
+\hypertarget{common_8h_adbcbbec810f51100b2595f1395d60c3c}{
+\index{common.h@{common.h}!AgilentFileHeader@{AgilentFileHeader}}
+\index{AgilentFileHeader@{AgilentFileHeader}!common.h@{common.h}}
+\subsubsection[{AgilentFileHeader}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf AgilentFileHeaderTag} {\bf AgilentFileHeader}}}
+\label{common_8h_adbcbbec810f51100b2595f1395d60c3c}
+
+
+The type used to represent the header of an Agilent file. 
+
+The struct represents the equivalent header of an Agilent file \hypertarget{common_8h_a5576fbb88d1a47675988d047621fdc92}{
+\index{common.h@{common.h}!AgilentWaveformDataHeader@{AgilentWaveformDataHeader}}
+\index{AgilentWaveformDataHeader@{AgilentWaveformDataHeader}!common.h@{common.h}}
+\subsubsection[{AgilentWaveformDataHeader}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf AgilentWaveformDataHeaderTag} {\bf AgilentWaveformDataHeader}}}
+\label{common_8h_a5576fbb88d1a47675988d047621fdc92}
+
+
+The type used to represent the data header of each waveform in an Agilent file. 
+
+The struct represents the equivalent data header of a waveform in an Agilent file \hypertarget{common_8h_a1f66db72c2c66ccb42604f224b7223e3}{
+\index{common.h@{common.h}!AgilentWaveformHeader@{AgilentWaveformHeader}}
+\index{AgilentWaveformHeader@{AgilentWaveformHeader}!common.h@{common.h}}
+\subsubsection[{AgilentWaveformHeader}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf AgilentWaveformHeaderTag} {\bf AgilentWaveformHeader}}}
+\label{common_8h_a1f66db72c2c66ccb42604f224b7223e3}
+
+
+The type used to represent the header of each waveform in an Agilent file. 
+
+The struct represents the equivalent header of a waveform in an Agilent file \hypertarget{common_8h_a271e567655d46ec23cdcca42c1deab91}{
+\index{common.h@{common.h}!UINTN@{UINTN}}
+\index{UINTN@{UINTN}!common.h@{common.h}}
+\subsubsection[{UINTN}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned int {\bf UINTN}}}
+\label{common_8h_a271e567655d46ec23cdcca42c1deab91}
+
+
+The type used to represent unsigned integer number. This value should be equal to 2$^\wedge$n. 
+

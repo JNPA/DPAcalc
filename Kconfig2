@@ -1,0 +1,88 @@
+mainmenu "DPA calc"
+config  DONE
+        bool
+	default y
+menu "Basic settings"
+
+  config BATCH_SIZE 
+	  int "How many samples should I process in a row?"
+	  default 500
+  config KEY_HYPOTESIS
+	  int "How many bits of the key should I try to guess?"
+	  default 8
+  config FULL_KEY_SIZE
+	  int "How large is the key? (bits)"
+	  default 128
+
+  config KNOWNDATA_BITS
+	  int "How large is the plain/ciphertext? (bits)"
+	  default 128
+	  
+  choice
+	prompt "Matrix data type"
+    config TRACETYPE_FLOAT
+	    bool "Float"
+    config TRACETYPE_DOUBLE
+	    bool "Double"
+  endchoice
+
+  config INPUT_QUEUE_SIZE
+  	int "How many batches should I prefetch from disk?"
+	default 30
+
+  config NO_TRICKS 
+        bool "Disable non-semantically-correct but working optimitations"
+	default n
+
+  endmenu
+menu "Compilation options"
+  choice
+	prompt "Build type"
+    config BUILD_DEBUG
+	    bool "Debug"
+    config BUILD_RELEASE
+	    bool "Release"
+  endchoice
+
+config DEBUG_OPTIONS
+	  string "Debug options"
+	  default "-O0 -g"
+	  depends on BUILD_DEBUG
+	  
+config OPTIMIZATION_OPTIONS
+	  string "Optimization options"
+	  default "-O2 -march=native"
+	  depends on BUILD_RELEASE
+
+endmenu
+menu "Class choices"  
+  
+ 
+config CLASS_INPUT
+	  string "Name of the class that parses the input file"
+	  default "bin1"
+  
+config CLASS_KEYGEN
+	  string "Name of the class that associates key index to real key value"
+	  default "aes128keygen"
+  
+config CLASS_INTERMEDIATE
+	  string "Name of the class that computes the intermediate value"
+	  default "aes128round1"
+  
+config CLASS_POWERMODEL
+	  string "Name of the class that computes the power model"
+	  default "hammingweight"
+
+config CLASS_STATISTIC
+	  string "Name of the class that computes statistic tests"
+	  default "pearson"
+
+config CLASS_EXEC
+	  string "Name of the class that manages threads"
+	  default "cxx11threads"
+
+config CLASS_OUTPUT
+	  string "Name of the class that writes output data"
+	  default "multiple"
+endmenu

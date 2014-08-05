@@ -1,0 +1,1 @@
+set (DPACALC_EXTRA_LIBS ${DPACALC_EXTRA_LIBS} pthread )
