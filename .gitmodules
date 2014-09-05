@@ -1,0 +1,3 @@
+[submodule "kconfig"]
+	path = kconfig
+	url = https://github.com/maxximino/kconfig

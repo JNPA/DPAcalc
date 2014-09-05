@@ -1,0 +1,63 @@
+/*
+Copyright (C) 2012	Massimo Maggi
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>
+*/
+#include "cxx11threads.hpp"
+#include "main.hpp"
+void prefetchthread();
+void threadfunction();
+unsigned long batchmax = 0;
+unsigned long batchcur = 0;
+mutex cur_mutex;
+void ExecMethod::cxx11threads::RunAndWait ( unsigned long numberoftimes )
+{
+    batchmax = numberoftimes;
+    batchcur = 0;
+    int numCPU = procArg.getValue();
+    if ( numCPU == 0 ) {
+        numCPU = sysconf ( _SC_NPROCESSORS_ONLN );
+    }
+    //cout << "Number of CPUs: " << numCPU << endl;
+    numCPU = 2;
+    vector<thread> thrs;
+    //thrs.push_back( thread (prefetchthread ) );
+    for ( int i = 0; i < numCPU; i++ ) {
+        thrs.push_back ( thread ( threadfunction, i ) );
+    }
+    for ( auto t = thrs.begin(); t != thrs.end(); ++t ) {
+        t->join();
+    }
+}
+
+void prefetchthread()
+{
+    DPA::instance()->prefetch();
+}
+
+void ExecMethod::cxx11threads::threadfunction(int i)
+{
+    int last_batch_id = -1;
+    for ( ;; ) {
+        cur_mutex.lock();
+        if ( batchcur < batchmax ) {
+            ++batchcur;
+        } else {
+            cur_mutex.unlock();
+            break;
+        }
+        cur_mutex.unlock();
+        last_batch_id = DPA::instance()->doRun(i, last_batch_id);
+    }
+}

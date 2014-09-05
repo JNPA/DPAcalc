@@ -1,0 +1,14 @@
+﻿Build started 09/02/2014 17:10:31.
+     1>Project "C:\Users\JohnDoe\Documents\Visual Studio 2012\Projects\DPACalc\dependencies\tclap\msc\examples\test1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\..\Include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\examples\test1.cpp
+         test1.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Debug\test1.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Debug kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Debug\test1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Debug\test1.lib" /MACHINE:X86 /SAFESEH Debug\test1.obj
+     1>test1.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+         test1.vcxproj -> C:\Users\JohnDoe\Documents\Visual Studio 2012\Projects\DPACalc\dependencies\tclap\msc\examples\Debug\test1.exe
+     1>Done Building Project "C:\Users\JohnDoe\Documents\Visual Studio 2012\Projects\DPACalc\dependencies\tclap\msc\examples\test1.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.23
