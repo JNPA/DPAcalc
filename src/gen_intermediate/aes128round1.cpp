@@ -58,15 +58,16 @@ void GenerateIntermediateValues::aes128round1::generate ()
     }
     /*Write the bytes to the buffer*/
     for(int i = 0; i < oclplat->getNumOfDevices(); i++) {
+        int cq_num = i * NUM_THREADS_PER_DEVICE;
         profileEvents->getNewEvent(constants::WRITE_KNOWNDATA + convertInt(i), i);
-        queues[i].enqueueWriteBuffer(buffers[ocl_kdata_idx + i],CL_FALSE,0,sizeof(uint8_t) * numtraces * DATA_SIZE_BYTE, fullaesdata, NULL, profileEvents->getEvent(constants::WRITE_KNOWNDATA + convertInt(i))); 
+        queues[cq_num].enqueueWriteBuffer(buffers[ocl_kdata_idx + i],CL_FALSE,0,sizeof(uint8_t) * numtraces * DATA_SIZE_BYTE, fullaesdata, NULL, profileEvents->getEvent(constants::WRITE_KNOWNDATA + convertInt(i))); 
+        cl::Kernel kernel = oclplat->getKernel("generateInterVal", i);
         for(int j = 0; j < KEY_SIZE_BYTE; j++) {
-            cl::Kernel kernel = oclplat->getKernel("generateInterVal", i);
             kernel.setArg(0, buffers[ocl_kdata_idx + i]);
             kernel.setArg(1, buffers[ocl_pm_idx + i * KEY_SIZE_BYTE + j]);    
             kernel.setArg(2, j);    
             profileEvents->getNewEvent(constants::GENERATE_INTER_VAL + convertInt(i) + constants::BYTE + convertInt(j), i);
-            queues[i].enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(KEY_NUM, numtraces), cl::NullRange, NULL, profileEvents->getEvent(constants::GENERATE_INTER_VAL + convertInt(i) + constants::BYTE + convertInt(j)));        
+            queues[cq_num].enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(KEY_NUM, numtraces), cl::NullRange, NULL, profileEvents->getEvent(constants::GENERATE_INTER_VAL + convertInt(i) + constants::BYTE + convertInt(j)));        
         }
     }
 }

@@ -26,14 +26,21 @@ void ExecMethod::cxx11threads::RunAndWait ( unsigned long numberoftimes )
     batchmax = numberoftimes;
     batchcur = 0;
     int numCPU = procArg.getValue();
+
+    /* Find number of cores */
+    /*
     if ( numCPU == 0 ) {
         numCPU = sysconf ( _SC_NPROCESSORS_ONLN );
     }
-    //cout << "Number of CPUs: " << numCPU << endl;
-    numCPU = 2;
+    */
+    int endDev = NUM_THREADS_PER_DEVICE * numDevices;
+    int startDev = 0;
+//    int endDev = NUM_THREADS_PER_DEVICE * TEST_PARAM_END_DEV;
+//    int startDev = NUM_THREADS_PER_DEVICE * TEST_PARAM_START_DEV;
     vector<thread> thrs;
     //thrs.push_back( thread (prefetchthread ) );
-    for ( int i = 0; i < numCPU; i++ ) {
+    for ( int i = startDev; i < endDev; i++ ) {
+        std::cout << "i number: " << i << " and threads " << NUM_THREADS_PER_DEVICE << " and numD" << numDevices << std::endl;
         thrs.push_back ( thread ( threadfunction, i ) );
     }
     for ( auto t = thrs.begin(); t != thrs.end(); ++t ) {

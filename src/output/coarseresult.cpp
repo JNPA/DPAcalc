@@ -20,8 +20,8 @@ Output::coarseresult::coarseresult ( TCLAP::CmdLine* cmd, Statistic::OpenCL::ope
 {
     cl_mem_flags flag_output = CL_MEM_READ_WRITE;
     size_t size_output = sizeof(float) * (512 / 16);
-    oclplat->createBuffer(OCL_OUTPUT_BUFFER_ID, flag_output, size_output, (void*)NULL, 2);
-    oclplat->createBuffer(OCL_OUTPUT2_BUFFER_ID, flag_output, size_output, (void*)NULL, 2);
+    oclplat->createBuffer(OCL_OUTPUT_BUFFER_ID, flag_output, size_output, (void*)NULL, NUM_THREADS_PER_DEVICE);
+    oclplat->createBuffer(OCL_OUTPUT2_BUFFER_ID, flag_output, size_output, (void*)NULL, NUM_THREADS_PER_DEVICE);
     oclplat->addKernel("src/statisticaltest/openCL/reduceStat.cl", true);
 }
 

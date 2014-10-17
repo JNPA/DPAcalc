@@ -11,7 +11,7 @@ namespace Statistic
         {
         public:
             openCLPlatform(std::vector<std::string> platformName, cl_device_type dev_type);
-            virtual cl_int init(int num_threads);
+            virtual cl_int init();
             virtual cl::Kernel getKernel(std::string functionName, int deviceId);
             virtual std::vector<cl::CommandQueue> getCommandQueues();
             virtual std::vector<cl::Buffer> getBuffers();
@@ -27,7 +27,7 @@ namespace Statistic
             virtual void getPlatforms(std::vector<std::string> platformNames);
             virtual void getDevices();
             virtual void createContexts();
-            virtual void createCommandQueues(int num_threads);
+            virtual void createCommandQueues();
             virtual void createProgram();
         private:
             bool initialized;

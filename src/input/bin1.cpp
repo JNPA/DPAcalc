@@ -123,6 +123,7 @@ void SamplesInput::bin1::populateQueue()
         return ;
     }
     unsigned long long num = min<unsigned long long> ( BATCH_SIZE, SamplesPerTrace - CurrentSample );
+    cout << "SamplesPerTrace = " << SamplesPerTrace << " - CurrentSample = " << CurrentSample << endl; 
     mysample = CurrentSample;
     CurrentSample += num;
     ++CurrentId;

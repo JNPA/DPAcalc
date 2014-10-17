@@ -24,7 +24,7 @@ namespace ExecMethod
         public:
             base ( TCLAP::CmdLine* cmd ) {};
             virtual void init(int _numDevices) {
-                numDevices = numDevices;
+                numDevices = _numDevices;
             };
             virtual void RunAndWait ( unsigned long numberoftimes ) = 0; //What should I run? DPA::onRun(); called on the right thread.
         protected:

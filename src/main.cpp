@@ -27,10 +27,14 @@ int DPA::doRun(int deviceID, int last_batchID) //BBQ-style. This method can be s
     TracesMatrix traces;
     cout << "Correlating a new batch" << endl;
 start_usec = PAPI_get_real_usec();
-    int num = input->read ( &myid, &traces ) / 16 * 16;
+    int num = input->read ( &myid, &traces );
+    if(num < BATCH_SIZE)  {
+        num -= num % 16;
+        if (num == 0) return myid;
+    }
 end_usec = PAPI_get_real_usec();
     cout << "Myid : " << myid << " and correlating " << num << " batches" << endl;
-    cout << "Device ID: " << (deviceID / 2) << "; Thread ID: " << deviceID << endl << endl;
+    cout << "Device ID: " << (deviceID / NUM_THREADS_PER_DEVICE) << "; Thread ID: " << deviceID << endl << endl;
     std::vector<StatisticIndexMatrix> vec_stat;
     //TODO: 16
     for(int i = 0; i < 16; i++) {
@@ -82,6 +86,7 @@ int DPA::main ( int argc, char** argv )
     totalDevs = oclplat.getNumOfDevices();
     deviceNumMutex = new std::mutex();
     
+    std::cout << "Buffer size: " << oclplat.getBuffers().size() << std::endl;
     
     exec = (ExecMethod::base*) new ExecMethod::EXECCLASS ( &cmd );
     input = (SamplesInput::base*) new SamplesInput::INPUTCLASS ( &cmd, &profTimer);
@@ -108,7 +113,7 @@ int DPA::main ( int argc, char** argv )
     outp->init();
     stat->init ( (int) input->getNumTraces() );
     exec->init(oclplat.getNumOfDevices());
-    oclplat.init(2);                        //Has to be the last initialization - other classes fill the var sources
+    oclplat.init();                        //Has to be the last initialization - other classes fill the var sources
 
     std::cout << "---Checking buffer sizes----" << std::endl;
     oclplat.verifyBufferSize();
@@ -134,12 +139,12 @@ int DPA::main ( int argc, char** argv )
     genpm->generate();
     e_usec = PAPI_get_real_usec();
     profTimer.addBasicTime(timerUtil::GEN_POWER_MODEL, e_usec - s_usec);
-    /*HERE*/
+    cout << "Done. PM pre computation..\n";
     s_usec = PAPI_get_real_usec();
     stat->computeSummationsPM();
     e_usec = PAPI_get_real_usec();
     profTimer.addBasicTime(timerUtil::COMP_PMM_VAL_IDX, e_usec - s_usec);
-    free(data); // I don't need that data anymore.
+    //free(data); // I don't need that data anymore.
     cout << "Done. Starting statistic test [multithreaded]" << endl;
     exec->RunAndWait ( numbatches );
     cout << "Done." << endl;
@@ -208,7 +213,7 @@ int DPA::main ( int argc, char** argv )
     /*****************************************************************/ 
     outp->end();
     //profTimer.ShowBasicTimers();
-    profTimer.ShowAllTimers();
+    //profTimer.ShowAllTimers();
     return 0;
 }
 

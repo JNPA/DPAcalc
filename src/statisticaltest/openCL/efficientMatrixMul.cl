@@ -1,3 +1,6 @@
+#define BLOCK_SIZE 32
+#define SAMPLE_MATRIX_SIZE 256
+
 __kernel void matrixMul_new(
     __global float* C, 
     __global float* pm_buf, 
@@ -29,7 +32,7 @@ __kernel void matrixMul_new(
  
     // Index of the first sub-matrix of A processed 
     // by the block
-    int aBegin = 16 * bx;
+    int aBegin = BLOCK_SIZE * bx;
  
     // Index of the last sub-matrix of A processed 
     // by the block
@@ -37,15 +40,15 @@ __kernel void matrixMul_new(
  
     // Step size used to iterate through the 
     // sub-matrices of A
-    int aStep  = 16 * 256;
+    int aStep  = BLOCK_SIZE * 256;
  
     // Index of the first sub-matrix of B processed 
     // by the block
-    int bBegin = 16 * by;
+    int bBegin = BLOCK_SIZE * by;
  
     // Step size used to iterate through the 
     // sub-matrices of B
-    int bStep  = 16 * 256;
+    int bStep  = BLOCK_SIZE * SAMPLE_MATRIX_SIZE;
 
     float Csub = 0.0; 
     // Loop over all the sub-matrices of A and B
@@ -55,22 +58,22 @@ __kernel void matrixMul_new(
     for ( a = aBegin, b = bBegin; ( a + aStep ) <= aEnd; a += aStep, b += bStep) {
         // Declaration of the local memory array As 
         // used to store the sub-matrix of A
-        __local float As[16][16];
+        __local float As[BLOCK_SIZE][BLOCK_SIZE];
         // Declaration of the local memory array Bs 
         // used to store the sub-matrix of B
-        __local float Bs[16][16];
+        __local float Bs[BLOCK_SIZE][BLOCK_SIZE];
         // Load the matrices from global memory
         // to local memory; each thread loads
         // one element of each matrix
         As[ty][tx] = A[a + 256 * ty + tx];
-        Bs[ty][tx] = B[b + 256 * ty + tx];
+        Bs[ty][tx] = B[b + SAMPLE_MATRIX_SIZE * ty + tx];
         // Synchronize to make sure the matrices 
         // are loaded
         barrier(CLK_LOCAL_MEM_FENCE);
         // Multiply the two matrices together;
         // each thread computes one element
         // of the block sub-matrix
-        for (int k = 0; k < 16; ++k)
+        for (int k = 0; k < BLOCK_SIZE; ++k)
             Csub += As[k][ty] * Bs[k][tx];
         // Synchronize to make sure that the preceding
         // computation is done before loading two new
@@ -80,24 +83,24 @@ __kernel void matrixMul_new(
 
         // Declaration of the local memory array As 
         // used to store the sub-matrix of A
-        __local float As[16][16];
+        __local float As[BLOCK_SIZE][BLOCK_SIZE];
         // Declaration of the local memory array Bs 
         // used to store the sub-matrix of B
-        __local float Bs[16][16];
+        __local float Bs[BLOCK_SIZE][BLOCK_SIZE];
         // Load the matrices from global memory
         // to local memory; each thread loads
         // one element of each matrix
         As[ty][tx] = A[a + 256 * ty + tx];
-        Bs[ty][tx] = B[b + 256 * ty + tx];
+        Bs[ty][tx] = B[b + SAMPLE_MATRIX_SIZE * ty + tx];
         // Synchronize to make sure the matrices 
         // are loaded
         barrier(CLK_LOCAL_MEM_FENCE);
         // Multiply the two matrices together;
         // each thread computes one element
         // of the block sub-matrix
-        int limit = numtraces % 16;
+        int limit = numtraces % BLOCK_SIZE;
         if(limit == 0)
-            limit = 16;
+            limit = BLOCK_SIZE;
         for (int k = 0; k < limit; ++k) {
             Csub += As[k][ty] * Bs[k][tx];
         }
@@ -108,9 +111,9 @@ __kernel void matrixMul_new(
 
     // Write the block sub-matrix to device memory;
     // each thread writes one element
-    int c = 256 * 16 * bx + 16 * by;
-    int i = 16 * bx + ty; 
-    int j = 16 * by + tx; 
+    int c = SAMPLE_MATRIX_SIZE * BLOCK_SIZE * bx + BLOCK_SIZE * by;
+    int i = BLOCK_SIZE * bx + ty; 
+    int j = BLOCK_SIZE * by + tx; 
     //if(bx == 0 && by == 0 && ty == 0 && tx == 15 ) {
     //    C[0] = Csub;
     //    C[1] = somatorio_pm[0];
@@ -122,7 +125,7 @@ __kernel void matrixMul_new(
     //    C[7] = A[256];
     //    C[8] = B[15];
     //}
-    C[c + 256 * ty + tx] = 
+    C[c + SAMPLE_MATRIX_SIZE * ty + tx] = 
         ( Csub - ( somatorio_pm[i] * somatorio_traces[j]) ) / 
         ( somatorio_pm_pow_2[i] * somatorio_traces_pow_2[j] ); 
 }

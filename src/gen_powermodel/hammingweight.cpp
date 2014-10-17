@@ -39,12 +39,13 @@ void GeneratePowerModel::hammingweight::generate ()
     std::vector<cl::CommandQueue> queues = oclplat->getCommandQueues();
     std::vector<cl::Buffer> buffers = oclplat->getBuffers();
     for(int i = 0; i < oclplat->getNumOfDevices(); i++) {
+        int cq_num = i * NUM_THREADS_PER_DEVICE;
         cl::Kernel kernel_pm = oclplat->getKernel("generatePMVal", i);
         for(int j = 0; j < KEY_SIZE_BYTE; j++) {        
             kernel_pm.setArg(0, buffers[ocl_pm_idx + i * KEY_SIZE_BYTE + j]);
             kernel_pm.setArg(1, j);
             profileEvents->getNewEvent(constants::GENERATE_POWER_MATRIX + convertInt(i) + constants::BYTE + convertInt(j), i);
-            queues[i].enqueueNDRangeKernel(kernel_pm, cl::NullRange, cl::NDRange(KEY_NUM, numtraces), cl::NullRange, NULL, profileEvents->getEvent(constants::GENERATE_POWER_MATRIX + convertInt(i) + constants::BYTE + convertInt(j)));
+            queues[cq_num].enqueueNDRangeKernel(kernel_pm, cl::NullRange, cl::NDRange(KEY_NUM, numtraces), cl::NullRange, NULL, profileEvents->getEvent(constants::GENERATE_POWER_MATRIX + convertInt(i) + constants::BYTE + convertInt(j)));
         }
     }
 }

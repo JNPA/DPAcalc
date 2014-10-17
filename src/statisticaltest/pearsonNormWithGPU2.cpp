@@ -31,8 +31,8 @@ void StatisticTest::pearsonNormWithGPU2::init (int _numtraces)
     size_t size_trace = sizeof(float) * BATCH_SIZE * numtraces;
     size_trace += sizeof(float) * BATCH_SIZE * 2; /*arrays with the sums*/
     size_t size_stat = sizeof(float) * KEY_NUM * BATCH_SIZE; 
-    oclplat->createBuffer(OCL_TRACE_BUFFER_ID, flag_trace, size_trace, (void*)NULL, 2);
-    oclplat->createBuffer(OCL_STAT_BUFFER_ID, flag_stat, size_stat, (void*)NULL, 2);
+    oclplat->createBuffer(OCL_TRACE_BUFFER_ID, flag_trace, size_trace, (void*) NULL, NUM_THREADS_PER_DEVICE);
+    oclplat->createBuffer(OCL_STAT_BUFFER_ID, flag_stat, size_stat, (void*) NULL, NUM_THREADS_PER_DEVICE);
     ocl_pm_idx = oclplat->getBufferIndex(OCL_PM_BUFFER_ID);
     ocl_trace_idx = oclplat->getBufferIndex(OCL_TRACE_BUFFER_ID);
     ocl_stat_idx = oclplat->getBufferIndex(OCL_STAT_BUFFER_ID);
@@ -50,6 +50,7 @@ void StatisticTest::pearsonNormWithGPU2::computeSummationsPM()
     std::vector<cl::Buffer> buffers = oclplat->getBuffers();
     long long start_usec, end_usec;
     for(int j = 0; j < oclplat->getNumOfDevices(); j++) {
+        int cq_num = j * NUM_THREADS_PER_DEVICE;
         cl::Kernel kernel = oclplat->getKernel("person_corr_red", j);
         int offset_m = 0;
         int offset_sum = KEY_NUM * numtraces;
@@ -68,7 +69,7 @@ void StatisticTest::pearsonNormWithGPU2::computeSummationsPM()
             kernel.setArg(7, offset_sum_pow_2);
             std::string eventName = constants::COMPUTE_PMM_SUMS + convertInt(j) + constants::BYTE + convertInt(i);
             profileEvents->getNewEvent(eventName, j);
-            queues[j].enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(KEY_NUM), cl::NullRange,NULL,profileEvents->getEvent(eventName));
+            queues[cq_num].enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(KEY_NUM), cl::NullRange,NULL,profileEvents->getEvent(eventName));
             end_usec = PAPI_get_real_usec();
             profTimer->addNewTime(eventName + "\n", end_usec - start_usec);
         }
@@ -89,8 +90,7 @@ void StatisticTest::pearsonNormWithGPU2::computeSummationsTraces(cl::Kernel kern
     kernel.setArg(6, offset_sum);
     kernel.setArg(7, offset_sum + BATCH_SIZE);
     profileEvents->getNewEvent(constants::COMPUTE_TRACE_SUMS + convertInt(batchId), deviceId);
-    queues[deviceId].enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(numvalid), cl::NullRange, NULL, profileEvents->getEvent(constants::COMPUTE_TRACE_SUMS + convertInt(batchId)));
-
+    queues[threadID].enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(numvalid), cl::NullRange, NULL, profileEvents->getEvent(constants::COMPUTE_TRACE_SUMS + convertInt(batchId)));
 }
 
 Statistic::OpenCL::profileOpenCLCommand* StatisticTest::pearsonNormWithGPU2::getProfileEvents()
@@ -101,7 +101,7 @@ Statistic::OpenCL::profileOpenCLCommand* StatisticTest::pearsonNormWithGPU2::get
 void StatisticTest::pearsonNormWithGPU2::generate ( std::vector<StatisticIndexMatrix> stat, TracesMatrix traces, long unsigned int numvalid, int threadID, int myId, int last_batchID)
 {
     int batchId = myId;
-    int deviceId = threadID >> 1;
+    int deviceId = threadID / NUM_THREADS_PER_DEVICE;
     long long start_usec, end_usec;
     std::vector<cl::CommandQueue> queues = oclplat->getCommandQueues();
     std::vector<cl::Buffer> buffers = oclplat->getBuffers();
@@ -131,7 +131,7 @@ void StatisticTest::pearsonNormWithGPU2::generate ( std::vector<StatisticIndexMa
         std::string kernelName = "matrixMul_new";
         cl::Kernel kernel = oclplat->getKernel(kernelName, deviceId);
 //TODO        cl::NDRange localNDRange = (numvalid == BATCH_SIZE) ? cl::NDRange(16, 16) : cl::NullRange;
-        cl::NDRange localNDRange = cl::NDRange(16, 16);
+        cl::NDRange localNDRange = cl::NDRange(BLOCK_SIZE, BLOCK_SIZE);
         kernel.setArg(0, buffers[ocl_stat_idx + threadID]);
         kernel.setArg(2, buffers[ocl_trace_idx + threadID]);
         kernel.setArg(3, numt);
@@ -148,8 +148,8 @@ void StatisticTest::pearsonNormWithGPU2::generate ( std::vector<StatisticIndexMa
         kernel.setArg(10, numkeys);
         kernel.setArg(11, numbatches);
         cl::Kernel kernel_red = oclplat->getKernel("reduce", deviceId);
-        int localsize = 16;
-        int globalsize = 512;
+        int localsize = BLOCK_SIZE;
+        int globalsize = BLOCK_SIZE * 32; //TODO use number of compute units
         kernel_red.setArg(0, buffers[ocl_stat_idx + threadID]);
         kernel_red.setArg(1, sizeof(float) * localsize, NULL);
         kernel_red.setArg(2, sizeof(float) * localsize, NULL);
@@ -157,7 +157,7 @@ void StatisticTest::pearsonNormWithGPU2::generate ( std::vector<StatisticIndexMa
         kernel_red.setArg(4, buffers[ocl_outp_idx + threadID]);
         kernel_red.setArg(5, buffers[ocl_outp2_idx + threadID]);
         /*Wait for the last correlation is done.*/
-        if( ( threadID % 2 ) != 0) {
+        if( ( threadID % NUM_THREADS_PER_DEVICE ) != 0) {
             std::string lastPMeventName = constants::COMPUTE_PMM_SUMS + convertInt(deviceId) + constants::BYTE + convertInt(KEY_SIZE_BYTE - 1);
             profileEvents->getEvent(lastPMeventName)->wait();
         }
