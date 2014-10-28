@@ -93,13 +93,13 @@ The output besides showing the most likely key also shows complementary informat
 
 #### Initialization
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/JNPA/DPAcalc/blob/OpenCL-GPU-version/framework/doxygen/img/initialization.png "Output example section Initialization")
 
 This section starts by displaying the compilation options and the name of the classes to compute each module. Then, it is shown the how many platforms are installed in the used system, describing the platforms with one or more GPUs. Subsequently, a detailed information about each found GPU is presented. Finally, the header of the input file is shown. 
 
 #### Execution
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/JNPA/DPAcalc/blob/OpenCL-GPU-version/framework/doxygen/img/execution.png "Output example section Execution")
 
 This section is useful in runtime, as it shows the current state of the execution. The states are:
  1. Read Known Data
@@ -119,6 +119,6 @@ This section is useful in runtime, as it shows the current state of the executio
 
 #### Results
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/JNPA/DPAcalc/blob/OpenCL-GPU-version/framework/doxygen/img/results.png "Output example section Results")
 
 The last section of the output presents the most likely key and the total execution time. In the example of the figure, the execution took *4 seconds*, approximately, and the best hypothesis for the first byte of the key is *2b*. 
