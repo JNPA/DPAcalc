@@ -1,19 +1,22 @@
 /*
-Copyright (C) 2012	Massimo Maggi
+Copyright 2014 João Amaral
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This file is part of DPA Calc.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+DPA Calc is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published 
+by the Free Software Foundation, either version 3 of the License, 
+or (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
+DPA Calc is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License 
+along with DPA Calc. If not, see http://www.gnu.org/licenses/.
 */
+
 #include "dpacalc.h"
 #include "includes.h"
 #include "main.hpp"
@@ -33,7 +36,7 @@ start_usec = PAPI_get_real_usec();
         if (num == 0) return myid;
     }
 end_usec = PAPI_get_real_usec();
-    cout << "Myid : " << myid << " and correlating " << num << " batches" << endl;
+    cout << "Batch Number : " << myid << " and correlating " << num << " samples." << endl;
     cout << "Device ID: " << (deviceID / NUM_THREADS_PER_DEVICE) << "; Thread ID: " << deviceID << endl << endl;
     std::vector<StatisticIndexMatrix> vec_stat;
     //TODO: 16
@@ -78,23 +81,22 @@ int DPA::main ( int argc, char** argv )
     /*****************************************************************/
     /*********************** 1st Part Creation ***********************/
     /*****************************************************************/
-    std::vector<std::string> platformNames; platformNames.push_back("NVIDIA"); platformNames.push_back("AMD");
+    std::cout << "--- Compile Options ---" << std::endl;
+    this->ShowCompileTimeOptions();
+    std::cout << "-----------------------" << std::endl;
     TCLAP::CmdLine cmd( "DPA calc", ' ', VERSION );
-    Statistic::OpenCL::openCLPlatform oclplat = Statistic::OpenCL::openCLPlatform(platformNames, CL_DEVICE_TYPE_GPU);
+    Statistic::OpenCL::openCLPlatform oclplat = Statistic::OpenCL::openCLPlatform();
     profTimer = timerUtil();
     deviceNum = 0;
     totalDevs = oclplat.getNumOfDevices();
     deviceNumMutex = new std::mutex();
-    
-    std::cout << "Buffer size: " << oclplat.getBuffers().size() << std::endl;
-    
+        
     exec = (ExecMethod::base*) new ExecMethod::EXECCLASS ( &cmd );
     input = (SamplesInput::base*) new SamplesInput::INPUTCLASS ( &cmd, &profTimer);
     interm = (GenerateIntermediateValues::base*) new GenerateIntermediateValues::GENINTERMCLASS ( &cmd, &oclplat, &profTimer );
     genpm = (GeneratePowerModel::base*) new GeneratePowerModel::GENPOWERMODELCLASS ( &cmd, &oclplat, &profTimer);
     stat = (StatisticTest::base*) new StatisticTest::STATISTICCLASS ( &cmd, &oclplat, &profTimer );
     outp = (Output::base*) new Output::OUTPUTCLASS ( &cmd, &oclplat, &profTimer );
-    //this->ShowCompileTimeOptions();
     try {
         cmd.parse ( argc, argv );
     } catch ( TCLAP::ArgException& e ) {
@@ -106,7 +108,6 @@ int DPA::main ( int argc, char** argv )
     /*****************************************************************/
     input->init();
     numbatches = ( input->SamplesPerTrace / BATCH_SIZE ) + ( ( ( input->SamplesPerTrace % BATCH_SIZE ) == 0 ) ? 0 : 1 );
-    cout << "Reading known data..." << endl;
     data = input->readData();
     interm->init(input->getNumTraces(), input->readData());
     genpm->init(input->getNumTraces());
@@ -115,14 +116,12 @@ int DPA::main ( int argc, char** argv )
     exec->init(oclplat.getNumOfDevices());
     oclplat.init();                        //Has to be the last initialization - other classes fill the var sources
 
-    std::cout << "---Checking buffer sizes----" << std::endl;
     oclplat.verifyBufferSize();
-//    std::cout << "------------------" << std::endl;
     if( !oclplat.is_sufficient_mem()) {
         std::cout << "Not good choice.." << std::endl; 
         return -1;
     } else {
-        std::cout << "Device memory can store all the buffers." << std::endl;
+        std::cout << "Devices' memory can store all the buffers." << std::endl;
     }
     end_usec = PAPI_get_real_usec();
     profTimer.addBasicTime(timerUtil::INIT_IDX, end_usec - start_usec);
@@ -131,7 +130,7 @@ int DPA::main ( int argc, char** argv )
     /*****************************************************************/
     long long s_usec, e_usec;
     s_usec = PAPI_get_real_usec();
-    cout << "Start generating..\n";
+    cout << endl << "Start generating..\n";
     interm->generate();
     e_usec = PAPI_get_real_usec();
     profTimer.addBasicTime(timerUtil::GEN_INTER_VALS, e_usec - s_usec);
@@ -139,7 +138,7 @@ int DPA::main ( int argc, char** argv )
     genpm->generate();
     e_usec = PAPI_get_real_usec();
     profTimer.addBasicTime(timerUtil::GEN_POWER_MODEL, e_usec - s_usec);
-    cout << "Done. PM pre computation..\n";
+    cout << "Done. Starting PM pre computation..\n";
     s_usec = PAPI_get_real_usec();
     stat->computeSummationsPM();
     e_usec = PAPI_get_real_usec();
@@ -147,11 +146,11 @@ int DPA::main ( int argc, char** argv )
     //free(data); // I don't need that data anymore.
     cout << "Done. Starting statistic test [multithreaded]" << endl;
     exec->RunAndWait ( numbatches );
-    cout << "Done." << endl;
+    cout << "Finish the statistic test." << endl;
     /* Gets the ending time in microseconds */
     end_usec = PAPI_get_real_usec();
     profTimer.addBasicTime(timerUtil::TOTAL_TIME_IDX, end_usec - start_usec);
-    cout << "Total:" << profTimer.getBasicTime(timerUtil::TOTAL_TIME_IDX) << endl;
+    cout << "This input took " << profTimer.getBasicTime(timerUtil::TOTAL_TIME_IDX)<< " microseconds to be computed." << endl;
     /*****************************************************************/
     /********************** 4th Part Profiling ***********************/
     /*****************************************************************/
@@ -219,11 +218,12 @@ int DPA::main ( int argc, char** argv )
 
 void DPA::ShowCompileTimeOptions()
 {
-    cout << "DPAcalc was compiled with : " << endl;
-    cout << "Batch size : " << BATCH_SIZE << endl;
+    cout << "DPAcalc was compiled with " << endl;
     cout << "Number of bit of the key to guess : " << KEY_HYP_BIT << endl;
     cout << "Size of known data : " << DATA_SIZE_BIT << " bit " << endl;
     cout << "Size of key : " << KEY_SIZE_BIT << " bit " << endl;
+    cout << "Batch size : " << BATCH_SIZE << endl;
+    cout << "Number of threads per device : " << NUM_THREADS_PER_DEVICE << endl;
     cout << endl;
     cout << "Name of the class that reads input file: " << INPUTCLASS_STR << endl;
     cout << "Name of the class that generates intermediate values: " << GENINTERMCLASS_STR << endl;

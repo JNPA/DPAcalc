@@ -1,19 +1,22 @@
 /*
-Copyright (C) 2012	Massimo Maggi
+Copyright 2014 João Amaral
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This file is part of DPA Calc.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+DPA Calc is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published 
+by the Free Software Foundation, either version 3 of the License, 
+or (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
+DPA Calc is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License 
+along with DPA Calc. If not, see http://www.gnu.org/licenses/.
 */
+
 #include "bin1.hpp"
 
 
@@ -33,6 +36,7 @@ long long unsigned int SamplesInput::bin1::read ( long long unsigned int* id, Tr
     }
     *id = qe.id;
     *traces = qe.traces;
+    std::cout << "My first sample is " << qe.id * BATCH_SIZE << std::endl;
     return qe.size;
 }
 void SamplesInput::bin1::init()
@@ -54,10 +58,10 @@ void SamplesInput::bin1::init()
     SamplesPerTrace = header.numsamples_per_trace;
     NumTraces = header.numtraces;
     cout << "---File's Metadata---" << endl;
-    cout << "Number of samples per trace: \t" << header.numsamples_per_trace << endl;
-    cout << "Number of traces: \t" << header.numtraces << endl;
-    cout << "Known Data Lenght: \t" << (int) header.knowndatalength << endl;
-    cout << "Data type: \t" << header.datatype << endl;
+    cout << "Number of samples per trace: " << header.numsamples_per_trace << endl;
+    cout << "Number of traces: " << header.numtraces << endl;
+    cout << "Known Data Lenght: " << (int) header.knowndatalength << endl;
+    cout << "Data type: " << header.datatype << endl;
     cout << "---------------------" << endl;
     switch ( header.datatype ) {
         case 'b':
@@ -97,9 +101,9 @@ void SamplesInput::bin1::init()
         exit ( 3 );
     }
     if ( mlockArg.getValue() ) {
-        cout << "mlock-ing" << endl;
+//        cout << "Locking input pages.." << endl;
         mlock ( fileoffset, RealFileSize );
-        cout << "mlock-ed" << endl;
+//        cout << "Locked input pages" << endl;
     }
     /* Gets the ending time in microseconds */
     end_usec = PAPI_get_real_usec();
@@ -123,7 +127,6 @@ void SamplesInput::bin1::populateQueue()
         return ;
     }
     unsigned long long num = min<unsigned long long> ( BATCH_SIZE, SamplesPerTrace - CurrentSample );
-    cout << "SamplesPerTrace = " << SamplesPerTrace << " - CurrentSample = " << CurrentSample << endl; 
     mysample = CurrentSample;
     CurrentSample += num;
     ++CurrentId;
@@ -148,7 +151,7 @@ void SamplesInput::bin1::populateQueue()
                 break;
         }
     }
-    std::cout << "My first sample is " << mysample << std::endl;
+//    std::cout << "My first sample is " << mysample << std::endl;
     queuemutex.lock();
     readytraces.push ( qe );
     queuemutex.unlock();
@@ -173,9 +176,9 @@ template <class T>void SamplesInput::bin1::readSamples ( TracesMatrix traces, un
 DataMatrix SamplesInput::bin1::readData()
 {
     char* buffer;
-    cout << "Reading data.." << std::endl;
+    cout << "Reading known data.." << std::endl;
     if ( data != NULL ) {
-        cout << "Already read data." << std::endl;
+        cout << "Already read known data." << std::endl;
         return data;
     }
     long long start_usec, end_usec;

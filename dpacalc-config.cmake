@@ -1,8 +1,20 @@
+#Copyright 2014 João Amaral
 #
-# Automatically generated make config: don't edit
-# DPA calc
-# Thu Oct  3 07:39:47 2013
+#This file is part of DPA Calc.
 #
+#DPA Calc is free software: you can redistribute it and/or modify 
+#it under the terms of the GNU General Public License as published 
+#by the Free Software Foundation, either version 3 of the License, 
+#or (at your option) any later version.
+#
+#DPA Calc is distributed in the hope that it will be useful, 
+#but WITHOUT ANY WARRANTY; without even the implied warranty 
+#of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+#See the GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License 
+#along with DPA Calc. If not, see http://www.gnu.org/licenses/.
+
 set ( CONFIG_DONE y )
 
 #
@@ -17,7 +29,7 @@ set ( CONFIG_TRACETYPE_FLOAT y )
 set ( CONFIG_INPUT_QUEUE_SIZE 30 )
 # CONFIG_NO_TRICKS is not set
 SET ( CONFIG_NUM_THREADS_PER_DEVICE 1 )
-SET ( CONFIG_BLOCK_SIZE 32 )
+SET ( CONFIG_BLOCK_SIZE 16 )
 SET ( CONFIG_TEST_PARAM_START_DEV 0 )
 SET ( CONFIG_TEST_PARAM_END_DEV 1 ) 
 #
@@ -25,7 +37,7 @@ SET ( CONFIG_TEST_PARAM_END_DEV 1 )
 #
 set ( CONFIG_BUILD_DEBUG y )
 # CONFIG_BUILD_RELEASE is not set
-set ( CONFIG_DEBUG_OPTIONS "-g" )
+set ( CONFIG_DEBUG_OPTIONS "-O3 -g" )
 
 #
 # Class choices

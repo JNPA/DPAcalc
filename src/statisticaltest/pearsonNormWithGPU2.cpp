@@ -1,19 +1,22 @@
 /*
-Copyright (C) 2012	Massimo Maggi
+Copyright 2014 João Amaral
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This file is part of DPA Calc.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+DPA Calc is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published 
+by the Free Software Foundation, either version 3 of the License, 
+or (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
+DPA Calc is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License 
+along with DPA Calc. If not, see http://www.gnu.org/licenses/.
 */
+
 #include "dpacalc.h"
 #include "pearsonNormWithGPU2.hpp"
 
@@ -127,10 +130,8 @@ void StatisticTest::pearsonNormWithGPU2::generate ( std::vector<StatisticIndexMa
         profTimer->addNewTime("The trace normalization took (microsendos) \n", end_usec - start_usec);
         //Executing the GPU Kernel
         start_usec = PAPI_get_real_usec();
-//TODO        std::string kernelName = (numvalid == BATCH_SIZE) ? "matrixMul_new" : "person_corr_new";
         std::string kernelName = "matrixMul_new";
         cl::Kernel kernel = oclplat->getKernel(kernelName, deviceId);
-//TODO        cl::NDRange localNDRange = (numvalid == BATCH_SIZE) ? cl::NDRange(16, 16) : cl::NullRange;
         cl::NDRange localNDRange = cl::NDRange(BLOCK_SIZE, BLOCK_SIZE);
         kernel.setArg(0, buffers[ocl_stat_idx + threadID]);
         kernel.setArg(2, buffers[ocl_trace_idx + threadID]);

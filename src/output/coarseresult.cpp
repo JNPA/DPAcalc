@@ -1,19 +1,22 @@
 /*
-Copyright (C) 2012	Massimo Maggi
+Copyright 2014 João Amaral
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This file is part of DPA Calc.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+DPA Calc is free software: you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published 
+by the Free Software Foundation, either version 3 of the License, 
+or (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
+DPA Calc is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License 
+along with DPA Calc. If not, see http://www.gnu.org/licenses/.
 */
+
 #include "coarseresult.hpp"
 
 Output::coarseresult::coarseresult ( TCLAP::CmdLine* cmd, Statistic::OpenCL::openCLPlatform* _oclplat, timerUtil* _profTimer ) : base ( cmd, _oclplat, _profTimer )
@@ -30,9 +33,9 @@ void Output::coarseresult::end()
     cout << "Secret key hypothesis:" << endl;
     for(int i = 0; i < KEY_SIZE_BYTE; i++) {
         cout << "The best key hypothesis for byte " << i << " is: " << getKeyAsString ( best[i] ) << endl;
-        cout << "and its statistic index is: " << bestval[i] << endl;
+//        cout << "and its statistic index is: " << bestval[i] << endl;
     }
-    cout << "Time in reduction:" << time << endl;
+//    cout << "Time of CPU in reduction:" << time << endl;
 }
 
 void Output::coarseresult::init()

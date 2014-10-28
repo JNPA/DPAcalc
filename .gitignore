@@ -2,3 +2,5 @@
 *.orig
 *.bak
 config.h
+include.h
+out/

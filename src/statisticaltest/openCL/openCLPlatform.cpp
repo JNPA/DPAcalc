@@ -2,13 +2,15 @@
 #include "dpacalc.h"
 #include "openCLPlatform.hpp"
 
-Statistic::OpenCL::openCLPlatform::openCLPlatform(std::vector<std::string> platformNames, cl_device_type dev_type) : initialized(false)
+Statistic::OpenCL::openCLPlatform::openCLPlatform() : initialized(false)
 {
     try {
-        std::cout << "Trying to get platform with name " << platformNames[0] << std::endl;
-        getPlatforms(platformNames);
+        std::cout << "--- OpenCL initialization ---" << std::endl;
+        std::cout << "Getting platforms with GPUs" << std::endl;
+        getPlatforms();
         createContexts();
         getDevices();
+        std::cout << "----------------------------" << std::endl;
     }
     catch( cl::Error err) {
         std::cerr << "ERROR: " << err.what() << "(" << err.err() << ")" << std::endl;
@@ -37,26 +39,26 @@ cl_int Statistic::OpenCL::openCLPlatform::init()
 
 void Statistic::OpenCL::openCLPlatform::verifyBufferSize() 
 {
-    size_t total_buffer_size = 0;
-    std::cout << "Device max alloc mem: " << deviceList[0].getInfo< CL_DEVICE_MAX_MEM_ALLOC_SIZE >() << std::endl;
+    size_t total_required_mem_size = 0;
+    cl_int max_mem_size = deviceList[0].getInfo< CL_DEVICE_MAX_MEM_ALLOC_SIZE >();
     for(int i = 0; i < mem_sizes.size(); i++) { 
-//        std::cout << "buffer size: " << mem_sizes[i] << std::endl;
-        if(deviceList[0].getInfo< CL_DEVICE_MAX_MEM_ALLOC_SIZE >() < mem_sizes[i] ) {
+        if(max_mem_size < mem_sizes[i] ) {
+            std::cout << "One buffer exceeded the maximum size permited by the device " << deviceList[0].getInfo< CL_DEVICE_NAME >() << "." << std::endl;
             all_mem_in_gpu = false;
             return;
         }
-        total_buffer_size += mem_sizes[i];
+        total_required_mem_size += mem_sizes[i];
     }
-    std::cout << "Device Global: " << deviceList[0].getInfo< CL_DEVICE_GLOBAL_MEM_SIZE >() << std::endl;
-//    std::cout << "BS:" << total_buffer_size << std::endl;
-    if( deviceList[0].getInfo< CL_DEVICE_GLOBAL_MEM_SIZE >() < total_buffer_size) {
+    cl_int max_global_size = deviceList[0].getInfo< CL_DEVICE_GLOBAL_MEM_SIZE >();
+    if( max_global_size < total_required_mem_size) {
+        std::cout << "The required memory (" << total_required_mem_size << ") exceeds the global memory (" << max_global_size << ") of the device " << deviceList[0].getInfo< CL_DEVICE_NAME >() << "." << std::endl;
         all_mem_in_gpu = false;
         return;
     }
     all_mem_in_gpu = true;
 }
 
-void Statistic::OpenCL::openCLPlatform::getPlatforms(std::vector<std::string> platformNames) 
+void Statistic::OpenCL::openCLPlatform::getPlatforms() 
 {
     //Pick a platform
     cl::Platform::get(&platformList);
@@ -64,21 +66,27 @@ void Statistic::OpenCL::openCLPlatform::getPlatforms(std::vector<std::string> pl
         std::cout<<" No platforms found." << std::endl;
         exit(1);
     }
-    std::cout << "Num platforms: " << platformList.size() << std::endl;
+    std::cout << "Found " << platformList.size() << " platforms." << std::endl;
     cl_uint i;
-    for (cl_uint j = 0; j < platformNames.size(); j++) {
-        for (cl_uint i = 0; i < platformList.size(); i++) {
-            std::size_t found = platformList[i].getInfo<CL_PLATFORM_NAME>().find(platformNames[j]);
-            if ( found != std::string::npos ) {
-                platforms.push_back(platformList[i]);
-                std::cout << "Using platform: "<<platformList[i].getInfo<CL_PLATFORM_NAME>()<<"\n";
-                std::cout << "Using platform: "<<platformList[i].getInfo<CL_PLATFORM_VERSION>()<<"\n";
-                break;
+    for (cl_uint i = 0; i < platformList.size(); i++) {
+        cl_uint deviceIdCount = 0;
+        std::vector<cl::Device> aux_devices;
+        try{
+            platformList[i].getDevices(CL_DEVICE_TYPE_GPU, &aux_devices);
+            platforms.push_back(platformList[i]);
+            std::cout << "Using platform "<<platformList[i].getInfo<CL_PLATFORM_NAME>() << " with "<<platformList[i].getInfo<CL_PLATFORM_VERSION>() << std::endl;
+        }
+        catch (cl::Error err) {
+            if(err.err() != CL_DEVICE_NOT_FOUND) {
+                std::cerr << "ERROR: " << err.what() << "(" << err.err() << ")" << std::endl;
+                exit(1);
             }
         }
     }
+    std::cout << "Selected " << platforms.size() << " platforms (platforms with one or more GPUs)." << std::endl;
     if ( platforms.size() == 0) {
-        platforms.push_back(platformList[0]);
+        std::cout<<" No platforms with GPUs found." << std::endl;
+        exit(1);
     }
 }
 
@@ -92,16 +100,13 @@ void Statistic::OpenCL::openCLPlatform::getDevices()
         tmp = contexts[i].getInfo<CL_CONTEXT_DEVICES>();
         for(int j = 0; j < tmp.size(); j++) {
             deviceList.push_back(tmp[j]);
-            //std::cout << "version of openCL" << deviceList[k].getInfo< CL_DRIVER_VERSION >() << std::endl;
-            //std::cout << "Device max registers: " << deviceList[k].getInfo< CL_DEVICE_LOCAL_MEM_SIZE >() << std::endl;
-            //std::cout << "Device max global mem: " << deviceList[k].getInfo< CL_DEVICE_GLOBAL_MEM_SIZE >() << std::endl;
             std::cout << "Device name: " << deviceList[k].getInfo< CL_DEVICE_NAME >() << std::endl;
-            std::cout << "Device max work size: " << deviceList[k].getInfo< CL_DEVICE_MAX_WORK_ITEM_SIZES >()[0] << "|" << deviceList[0].getInfo< CL_DEVICE_MAX_WORK_ITEM_SIZES >()[1]<< "|" << deviceList[0].getInfo< CL_DEVICE_MAX_WORK_ITEM_SIZES >()[2] << std::endl;
-            std::cout << "Device max work size: " << deviceList[k].getInfo< CL_DEVICE_MAX_WORK_GROUP_SIZE >() << std::endl;
+            std::cout << "    - maximum size for each dimension of NDRange: " << deviceList[k].getInfo< CL_DEVICE_MAX_WORK_ITEM_SIZES >()[0] << "|" << deviceList[0].getInfo< CL_DEVICE_MAX_WORK_ITEM_SIZES >()[1]<< "|" << deviceList[0].getInfo< CL_DEVICE_MAX_WORK_ITEM_SIZES >()[2] << std::endl;
+            std::cout << "    - maximum workitems within workgroup: " << deviceList[k].getInfo< CL_DEVICE_MAX_WORK_GROUP_SIZE >() << std::endl;
             k++;
         }
     }
-    std::cout << "Device list has " << deviceList.size() << " devices." <<std::endl;
+    std::cout << "Found " << deviceList.size() << " devices." <<std::endl;
 }
 
 void Statistic::OpenCL::openCLPlatform::createContexts()
@@ -122,7 +127,6 @@ void Statistic::OpenCL::openCLPlatform::createCommandQueues()
         std::vector<cl::Device> devices = contexts[i].getInfo<CL_CONTEXT_DEVICES>();
         for(cl_uint j = 0; j < devices.size(); j++) {
             for(int k = 0; k < NUM_THREADS_PER_DEVICE; k++) {
-                std::cout << "CQ : " << commandQueueList.size() << " context : " << i << " and device " << j << std::endl;
                 commandQueueList.push_back( cl::CommandQueue( contexts[i], devices[j], CL_QUEUE_PROFILING_ENABLE ) );
             }
         }
@@ -147,12 +151,14 @@ void Statistic::OpenCL::openCLPlatform::createProgram()
         }
         i++;
     }
-    //for(i = 0; i < contexts.size(); i++) {
-    //    programs.push_back(cl::Program(contexts[i], vec_sources));
-    //}
-    //Get verbose
-    //program.build(deviceList, "-cl-nv-verbose");
-    /* DIRTY HACK - opencl bug */
+    /*
+    for(i = 0; i < contexts.size(); i++) {
+        programs.push_back(cl::Program(contexts[i], vec_sources));
+    }
+    Get verbose
+    program.build(deviceList, "-cl-nv-verbose");
+    */
+    /* DIRTY HACK to resolve opencl bug when using similar devices*/
     int devidx = 0;
     for(cl_uint j = 0; j < contexts.size(); j++) {
         std::vector<cl::Device> devices = contexts[j].getInfo<CL_CONTEXT_DEVICES>();
@@ -165,9 +171,12 @@ void Statistic::OpenCL::openCLPlatform::createProgram()
         }
     }
     for(cl_uint j = 0; j < programs.size(); j++) {
-        std::cout << "Build Status: " << programs[j].getBuildInfo<CL_PROGRAM_BUILD_STATUS>(deviceList[j]) << std::endl;
-        std::cout << "Build Options:\t" << programs[j].getBuildInfo<CL_PROGRAM_BUILD_OPTIONS>(deviceList[j]) << std::endl;
-        std::cout << "Build Log:\t " << programs[j].getBuildInfo<CL_PROGRAM_BUILD_LOG>(deviceList[j]) << std::endl;
+        cl_int status = programs[j].getBuildInfo<CL_PROGRAM_BUILD_STATUS>(deviceList[j]);
+        if(status != CL_BUILD_SUCCESS) {
+            std::cout << "Build Status: " << status << std::endl;
+            std::cout << "Build Options:\t" << programs[j].getBuildInfo<CL_PROGRAM_BUILD_OPTIONS>(deviceList[j]) << std::endl;
+            std::cout << "Build Log:\t " << programs[j].getBuildInfo<CL_PROGRAM_BUILD_LOG>(deviceList[j]) << std::endl;
+        }
     }
 }
 

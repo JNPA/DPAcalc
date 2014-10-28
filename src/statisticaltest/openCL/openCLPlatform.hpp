@@ -10,7 +10,7 @@ namespace Statistic
         class openCLPlatform
         {
         public:
-            openCLPlatform(std::vector<std::string> platformName, cl_device_type dev_type);
+            openCLPlatform();
             virtual cl_int init();
             virtual cl::Kernel getKernel(std::string functionName, int deviceId);
             virtual std::vector<cl::CommandQueue> getCommandQueues();
@@ -24,7 +24,7 @@ namespace Statistic
             virtual void addKernel(string file, bool is_file_path);
             virtual void verifyBufferSize();
         protected:
-            virtual void getPlatforms(std::vector<std::string> platformNames);
+            virtual void getPlatforms();
             virtual void getDevices();
             virtual void createContexts();
             virtual void createCommandQueues();
