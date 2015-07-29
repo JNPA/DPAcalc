@@ -168,7 +168,7 @@ template <class T>void SamplesInput::bin1::readSamples ( TracesMatrix traces, un
     //File is big enough, checked right after open.
     buffer = ( T* ) ( ( char* ) fileoffset + getSampleOffset ( curtrace, startingsample ) );
     for ( unsigned long i = 0; i < numsamples; i++ ) {
-        traces[ curtrace * BATCH_SIZE + i ] = buffer[i];
+        traces[ curtrace * BATCH_SIZE + i ] = (TraceValueType) buffer[i];
     }
 }
 

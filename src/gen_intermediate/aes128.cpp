@@ -18,20 +18,29 @@ along with DPA Calc. If not, see http://www.gnu.org/licenses/.
 */
 
 #include "dpacalc.h"
-#include "aes128round1.hpp"
+#include "aes128.hpp"
 
-Statistic::OpenCL::profileOpenCLCommand* GenerateIntermediateValues::aes128round1::getProfileEvents()
+Statistic::OpenCL::profileOpenCLCommand* GenerateIntermediateValues::aes128::getProfileEvents()
 {
     return profileEvents;
 }
 
-GenerateIntermediateValues::aes128round1::aes128round1 ( TCLAP::CmdLine* cmd, Statistic::OpenCL::openCLPlatform* _oclplat, timerUtil* _profTimer) : base ( cmd, _oclplat, _profTimer )
-{
-    oclplat->addKernel("src/statisticaltest/openCL/generateInterVal.cl", true);
-}
 
-void GenerateIntermediateValues::aes128round1::init(unsigned long long _numtraces, DataMatrix _knownData)
+void GenerateIntermediateValues::aes128::init(unsigned long long _numtraces, DataMatrix _knownData)
 {
+    if ( interModeArg.getValue().c_str() == (std::string)"regSBox" ){
+        oclplat->addKernel("src/statisticaltest/openCL/generateInterVal_aes128regSBox.cl", true);
+        kernelName = "generateInterVal_aes128regSBox";
+    }else if ( interModeArg.getValue().c_str() == (std::string)"invSBox" ){
+        oclplat->addKernel("src/statisticaltest/openCL/generateInterVal_aes128invSBox.cl", true);
+        kernelName = "generateInterVal_aes128invSBox";
+    }else{
+        cerr << "Unknown mode to calculate intermediate value: " << interModeArg.getValue().c_str() << endl;
+        exit ( 1 );
+    }
+
+    cout << "Using mode '" << interModeArg.getValue().c_str() << "' and kernel '" << kernelName << "'" << endl;
+
     GenerateIntermediateValues::base::init(_numtraces, _knownData);
     profileEvents = new Statistic::OpenCL::profileOpenCLCommand();
 
@@ -47,7 +56,7 @@ void GenerateIntermediateValues::aes128round1::init(unsigned long long _numtrace
     ocl_pm_idx = oclplat->getBufferIndex(OCL_PM_BUFFER_ID);
 }
 
-void GenerateIntermediateValues::aes128round1::generate ()
+void GenerateIntermediateValues::aes128::generate ()
 {
     std::vector<cl::CommandQueue> queues = oclplat->getCommandQueues();
     std::vector<cl::Buffer> buffers = oclplat->getBuffers();    
@@ -62,7 +71,7 @@ void GenerateIntermediateValues::aes128round1::generate ()
         int cq_num = i * NUM_THREADS_PER_DEVICE;
         profileEvents->getNewEvent(constants::WRITE_KNOWNDATA + convertInt(i), i);
         queues[cq_num].enqueueWriteBuffer(buffers[ocl_kdata_idx + i],CL_FALSE,0,sizeof(uint8_t) * numtraces * DATA_SIZE_BYTE, fullaesdata, NULL, profileEvents->getEvent(constants::WRITE_KNOWNDATA + convertInt(i))); 
-        cl::Kernel kernel = oclplat->getKernel("generateInterVal", i);
+        cl::Kernel kernel = oclplat->getKernel(kernelName, i);
         for(int j = 0; j < KEY_SIZE_BYTE; j++) {
             kernel.setArg(0, buffers[ocl_kdata_idx + i]);
             kernel.setArg(1, buffers[ocl_pm_idx + i * KEY_SIZE_BYTE + j]);    

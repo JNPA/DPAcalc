@@ -42,8 +42,8 @@ set ( CONFIG_DEBUG_OPTIONS "-O3 -g" )
 #
 # Class choices
 #
-set ( CONFIG_CLASS_INPUT "bin1" )
-set ( CONFIG_CLASS_INTERMEDIATE "aes128round1" )
+set ( CONFIG_CLASS_INPUT "hdf5" )
+set ( CONFIG_CLASS_INTERMEDIATE "aes128" )
 set ( CONFIG_CLASS_POWERMODEL "hammingweight" )
 set ( CONFIG_CLASS_STATISTIC "pearsonNormWithGPU2" )
 set ( CONFIG_CLASS_EXEC "cxx11threads" )
