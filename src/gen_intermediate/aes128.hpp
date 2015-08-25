@@ -19,19 +19,27 @@ along with DPA Calc. If not, see http://www.gnu.org/licenses/.
 
 #pragma once
 #include "base.hpp"
+#include <string>
+
 using namespace std;
 namespace GenerateIntermediateValues
 {
-    class aes128round1 : public base
+    class aes128 : public base
     {
         public:
 
             virtual void generate ();
             virtual void init(unsigned long long _numtraces, DataMatrix _knownData);
-            aes128round1 ( TCLAP::CmdLine* cmd, Statistic::OpenCL::openCLPlatform* _oclplat, timerUtil* _profTimer);
+            aes128 ( TCLAP::CmdLine* cmd, Statistic::OpenCL::openCLPlatform* _oclplat, timerUtil* _profTimer): base ( cmd, _oclplat, _profTimer ),
+                interModeArg ( "m", "mode", "Mode used to calculate intermediate value. Available options: 'regSBox' or 'invSBox' using different SBox. [regSBox]", false, "regSBox", "mode-name" ) // set command line argument for intermediate value calculation
+                {
+                    cmd->add ( interModeArg ); // init command line argument for intermediate value calculation
+                };
             Statistic::OpenCL::profileOpenCLCommand* getProfileEvents();
         protected:
             Statistic::OpenCL::profileOpenCLCommand* profileEvents;
+            TCLAP::ValueArg<std::string> interModeArg; // command line argument for intermediate value calculation
+            std::string kernelName;
             int ocl_kdata_idx;
             int ocl_pm_idx;
     };

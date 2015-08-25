@@ -1,7 +1,8 @@
 #define KEY_NUM 256
 #define DATA_SIZE_BYTE 16
 
-__constant uchar SBOX[256] =   {
+// SBOX for encryption (attack on first round of encryption AES)
+__constant uchar regSBox[256] =   {
     //0     1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76, //0
     0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0, //1
@@ -21,14 +22,9 @@ __constant uchar SBOX[256] =   {
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16  //F
 }; 
 
-int countBitsInInt(int i)
-{
-    i = i - ((i >> 1) & 0x55555555);
-    i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
-    return ((i + (i >> 4) & 0xF0F0F0F) * 0x1010101) >> 24;
-}
 
-__kernel void generateInterVal(
+
+__kernel void generateInterVal_aes128regSBox(
     __global uchar* knowndata,
     __global float* intval,
     const int byteidx
@@ -36,7 +32,7 @@ __kernel void generateInterVal(
 {
     int keyidx = get_global_id(0);
     int trcidx = get_global_id(1);
-    int number = SBOX[ knowndata[trcidx * DATA_SIZE_BYTE + byteidx] ^ keyidx ];
-    intval[trcidx * KEY_NUM + keyidx] = /*countBitsInInt(number);*/ number;
+    int number = regSBox[ knowndata[trcidx * DATA_SIZE_BYTE + byteidx] ^ keyidx ];
+    intval[trcidx * KEY_NUM + keyidx] =  number;
 }
                                                                             
